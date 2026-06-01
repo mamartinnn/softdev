@@ -1,68 +1,87 @@
-
 <div>
-    <flux:heading size="xl" class="mb-6">Laporan Pendapatan</flux:heading>
-
-    {{-- Filter --}}
-    <div class="flex gap-3 mb-6">
-        <flux:select wire:model.live="filterMonth" class="w-40">
-            @foreach(range(1, 12) as $m)
-            <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">
-                {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
-            </option>
-            @endforeach
-        </flux:select>
-        <flux:select wire:model.live="filterYear" class="w-28">
-            @foreach(range(now()->year, now()->year - 3) as $y)
-            <option value="{{ $y }}">{{ $y }}</option>
-            @endforeach
-        </flux:select>
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Laporan <span class="text-gradient">Pendapatan</span></h1>
+            <p class="text-sm mt-1" style="color: #475569;">Ringkasan keuangan per bulan</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <select wire:model.live="filterMonth"
+                    class="px-3 py-2 rounded-xl text-sm"
+                    style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0;">
+                @foreach(range(1,12) as $m)
+                <option value="{{ str_pad($m,2,'0',STR_PAD_LEFT) }}">{{ \Carbon\Carbon::create()->month($m)->format('F') }}</option>
+                @endforeach
+            </select>
+            <select wire:model.live="filterYear"
+                    class="px-3 py-2 rounded-xl text-sm"
+                    style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0;">
+                @foreach(range(date('Y'), date('Y')-3) as $y)
+                <option value="{{ $y }}">{{ $y }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
     {{-- Summary Cards --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <flux:card class="p-4 text-center">
-            <p class="text-sm text-zinc-500">Total Pendapatan</p>
-            <p class="text-2xl font-bold text-green-600">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
-        </flux:card>
-        <flux:card class="p-4 text-center">
-            <p class="text-sm text-zinc-500">Biaya Jasa</p>
-            <p class="text-2xl font-bold text-blue-600">Rp {{ number_format($totalServiceFee, 0, ',', '.') }}</p>
-        </flux:card>
-        <flux:card class="p-4 text-center">
-            <p class="text-sm text-zinc-500">Biaya Barang</p>
-            <p class="text-2xl font-bold text-orange-600">Rp {{ number_format($totalItemsCost, 0, ',', '.') }}</p>
-        </flux:card>
-        <flux:card class="p-4 text-center">
-            <p class="text-sm text-zinc-500">Total Order</p>
-            <p class="text-2xl font-bold text-zinc-800">{{ $totalOrders }}</p>
-        </flux:card>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="card-stat p-5">
+            <div class="w-10 h-10 rounded-xl icon-green flex items-center justify-center text-lg mb-3">💰</div>
+            <p class="text-xl font-black" style="color: #34d399;">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Total Pendapatan</p>
+        </div>
+        <div class="card-stat p-5">
+            <div class="w-10 h-10 rounded-xl icon-blue flex items-center justify-center text-lg mb-3">🔧</div>
+            <p class="text-xl font-black" style="color: #60a5fa;">Rp {{ number_format($totalServiceFee, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Biaya Jasa</p>
+        </div>
+        <div class="card-stat p-5">
+            <div class="w-10 h-10 rounded-xl icon-yellow flex items-center justify-center text-lg mb-3">📦</div>
+            <p class="text-xl font-black" style="color: #fde047;">Rp {{ number_format($totalItemsCost, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Biaya Barang</p>
+        </div>
+        <div class="card-stat p-5">
+            <div class="w-10 h-10 rounded-xl icon-purple flex items-center justify-center text-lg mb-3">📋</div>
+            <p class="text-3xl font-black" style="color: #c4b5fd;">{{ $totalOrders }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Total Order Selesai</p>
+        </div>
     </div>
 
-    {{-- Tabel Detail --}}
-    <flux:table>
-        <flux:columns>
-            <flux:column>No. Order</flux:column>
-            <flux:column>Pelanggan</flux:column>
-            <flux:column>Kendaraan</flux:column>
-            <flux:column>Kasir</flux:column>
-            <flux:column>Tanggal</flux:column>
-            <flux:column>Total</flux:column>
-        </flux:columns>
-        <flux:rows>
-            @forelse($orders as $order)
-            <flux:row>
-                <flux:cell class="font-mono text-sm">{{ $order->order_number }}</flux:cell>
-                <flux:cell>{{ $order->customer_name }}</flux:cell>
-                <flux:cell>{{ $order->vehicle_type }} ({{ $order->plate_number }})</flux:cell>
-                <flux:cell>{{ $order->user->name ?? '-' }}</flux:cell>
-                <flux:cell>{{ $order->completed_at->format('d/m/Y H:i') }}</flux:cell>
-                <flux:cell class="font-semibold text-green-700">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</flux:cell>
-            </flux:row>
-            @empty
-            <flux:row>
-                <flux:cell colspan="6" class="text-center text-zinc-400 py-8">Belum ada data untuk periode ini.</flux:cell>
-            </flux:row>
-            @endforelse
-        </flux:rows>
-    </flux:table>
+    {{-- Table --}}
+    <div class="card-dark overflow-hidden">
+        <div class="px-5 py-4" style="border-bottom: 1px solid rgba(234,179,8,0.12);">
+            <h3 class="text-sm font-bold" style="color: #e2e8f0;">Rincian Order Bulan Ini</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr style="background: rgba(15,23,42,0.6);">
+                        <th class="text-left px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">No. Order</th>
+                        <th class="text-left px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">Pelanggan</th>
+                        <th class="text-left px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">Kasir</th>
+                        <th class="text-right px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">Biaya Jasa</th>
+                        <th class="text-right px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">Biaya Barang</th>
+                        <th class="text-right px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">Grand Total</th>
+                        <th class="text-left px-5 py-3 text-xs font-bold uppercase" style="color: #eab308;">Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($orders as $order)
+                    <tr class="table-dark-row" style="border-bottom: 1px solid rgba(234,179,8,0.05);">
+                        <td class="px-5 py-3 font-mono text-xs" style="color: #93c5fd;">{{ $order->order_number }}</td>
+                        <td class="px-5 py-3 font-semibold" style="color: #e2e8f0;">{{ $order->customer_name }}</td>
+                        <td class="px-5 py-3" style="color: #94a3b8;">{{ $order->user->name ?? '-' }}</td>
+                        <td class="px-5 py-3 text-right" style="color: #60a5fa;">Rp {{ number_format($order->service_fee,0,',','.') }}</td>
+                        <td class="px-5 py-3 text-right" style="color: #fde047;">Rp {{ number_format($order->total_items_cost,0,',','.') }}</td>
+                        <td class="px-5 py-3 text-right font-bold" style="color: #34d399;">Rp {{ number_format($order->grand_total,0,',','.') }}</td>
+                        <td class="px-5 py-3 text-xs" style="color: #475569;">{{ $order->completed_at?->format('d/m/Y H:i') }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="7" class="px-5 py-12 text-center" style="color: #334155;">Tidak ada order selesai pada bulan ini.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

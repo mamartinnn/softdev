@@ -1,84 +1,163 @@
-
 <div>
-    <div class="flex items-center justify-between mb-6">
-        <flux:heading size="xl">Kelola Admin</flux:heading>
-        <flux:button wire:click="openCreate" variant="primary" icon="plus">
-            Tambah Admin
-        </flux:button>
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Kelola <span class="text-gradient">Admin</span></h1>
+            <p class="text-sm mt-1" style="color: #475569;">Manajemen akun kasir dan manager</p>
+        </div>
+        <button wire:click="openCreate"
+                class="btn-gold px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+            ➕ Tambah Admin
+        </button>
     </div>
 
-    {{-- Flash Messages --}}
     @if(session('success'))
-        <flux:callout variant="success" icon="check-circle" class="mb-4">{{ session('success') }}</flux:callout>
+    <div class="alert-success mb-4 flex items-center gap-2">✅ {{ session('success') }}</div>
     @endif
     @if(session('error'))
-        <flux:callout variant="danger" icon="x-circle" class="mb-4">{{ session('error') }}</flux:callout>
+    <div class="alert-danger mb-4 flex items-center gap-2">❌ {{ session('error') }}</div>
     @endif
 
-    {{-- Search --}}
-    <flux:input wire:model.live.debounce="search" placeholder="Cari nama atau email..." icon="magnifying-glass" class="mb-4 max-w-xs" />
+    <div class="mb-5">
+        <input wire:model.live.debounce="search" placeholder="🔍 Cari nama atau email..."
+               class="px-4 py-2.5 text-sm rounded-xl w-full max-w-sm"
+               style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+    </div>
 
-    {{-- Tabel --}}
-    <flux:table>
-        <flux:columns>
-            <flux:column>Nama</flux:column>
-            <flux:column>Email</flux:column>
-            <flux:column>Role</flux:column>
-            <flux:column>Status</flux:column>
-            <flux:column>Aksi</flux:column>
-        </flux:columns>
-        <flux:rows>
-            @forelse($admins as $admin)
-            <flux:row>
-                <flux:cell>{{ $admin->name }}</flux:cell>
-                <flux:cell>{{ $admin->email }}</flux:cell>
-                <flux:cell>
-                    <flux:badge variant="{{ $admin->role === 'manager' ? 'blue' : 'green' }}" size="sm">
-                        {{ ucfirst($admin->role) }}
-                    </flux:badge>
-                </flux:cell>
-                <flux:cell>
-                    <flux:badge variant="{{ $admin->is_active ? 'green' : 'zinc' }}" size="sm">
-                        {{ $admin->is_active ? 'Aktif' : 'Nonaktif' }}
-                    </flux:badge>
-                </flux:cell>
-                <flux:cell>
-                    <div class="flex gap-2">
-                        <flux:button wire:click="openEdit({{ $admin->id }})" size="sm" icon="pencil" />
-                        <flux:button wire:click="toggleActive({{ $admin->id }})" size="sm" variant="ghost" icon="{{ $admin->is_active ? 'eye-slash' : 'eye' }}" />
-                        <flux:button wire:click="delete({{ $admin->id }})" size="sm" variant="danger" icon="trash"
-                            wire:confirm="Yakin ingin menghapus admin ini?" />
-                    </div>
-                </flux:cell>
-            </flux:row>
-            @empty
-            <flux:row>
-                <flux:cell colspan="5" class="text-center text-zinc-400 py-8">Belum ada admin.</flux:cell>
-            </flux:row>
-            @endforelse
-        </flux:rows>
-    </flux:table>
-    <div class="mt-4">{{ $admins->links() }}</div>
-
-    {{-- Modal Tambah/Edit --}}
-    <flux:modal wire:model="showModal" class="max-w-md w-full">
-        <flux:heading>{{ $editingId ? 'Edit Admin' : 'Tambah Admin Baru' }}</flux:heading>
-        <div class="mt-4 space-y-4">
-            <flux:input wire:model="name" label="Nama Lengkap" placeholder="Nama admin" />
-            <flux:input wire:model="email" label="Email" type="email" placeholder="email@myuos.com" />
-            <flux:input wire:model="password" label="{{ $editingId ? 'Password Baru (kosongkan jika tidak diubah)' : 'Password' }}" type="password" />
-            <flux:select wire:model="role" label="Role">
-                <option value="kasir">Kasir</option>
-                <option value="manager">Manager</option>
-            </flux:select>
+    <div class="card-dark overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(234,179,8,0.15); background: rgba(15,23,42,0.6);">
+                        <th class="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wide" style="color: #eab308;">Nama</th>
+                        <th class="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wide" style="color: #eab308;">Email</th>
+                        <th class="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wide" style="color: #eab308;">Role</th>
+                        <th class="text-left px-5 py-3.5 text-xs font-bold uppercase tracking-wide" style="color: #eab308;">Status</th>
+                        <th class="px-5 py-3.5"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($admins as $admin)
+                    <tr class="table-dark-row" style="border-bottom: 1px solid rgba(234,179,8,0.06);">
+                        <td class="px-5 py-3.5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white"
+                                     style="background: linear-gradient(135deg, {{ $admin->role === 'manager' ? '#1d4ed8,#7c3aed' : '#059669,#10b981' }});">
+                                    {{ strtoupper(substr($admin->name, 0, 1)) }}
+                                </div>
+                                <span class="font-semibold" style="color: #e2e8f0;">{{ $admin->name }}</span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-3.5" style="color: #94a3b8;">{{ $admin->email }}</td>
+                        <td class="px-5 py-3.5">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                                  style="{{ $admin->role === 'manager' ? 'background:rgba(59,130,246,0.15);color:#93c5fd;' : 'background:rgba(16,185,129,0.15);color:#34d399;' }}">
+                                {{ ucfirst($admin->role) }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-3.5">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                                  style="{{ $admin->is_active ? 'background:rgba(16,185,129,0.15);color:#34d399;' : 'background:rgba(148,163,184,0.15);color:#64748b;' }}">
+                                {{ $admin->is_active ? 'Aktif' : 'Nonaktif' }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-3.5">
+                            <div class="flex items-center gap-2 justify-end">
+                                <button wire:click="openEdit({{ $admin->id }})"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                                        style="background: rgba(59,130,246,0.12); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2);">
+                                    ✏ Edit
+                                </button>
+                                <button wire:click="toggleActive({{ $admin->id }})"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                                        style="background: rgba(234,179,8,0.12); color: #fde047; border: 1px solid rgba(234,179,8,0.2);">
+                                    {{ $admin->is_active ? '🔇 Nonaktif' : '✔ Aktifkan' }}
+                                </button>
+                                <button wire:click="delete({{ $admin->id }})"
+                                        wire:confirm="Yakin ingin menghapus admin ini?"
+                                        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                                        style="background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">
+                                    🗑 Hapus
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-5 py-12 text-center" style="color: #334155;">Belum ada admin terdaftar.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        @error('name') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
-        @error('email') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
-        @error('password') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
-
-        <div class="flex justify-end gap-3 mt-6">
-            <flux:button wire:click="$set('showModal', false)" variant="ghost">Batal</flux:button>
-            <flux:button wire:click="save" variant="primary">Simpan</flux:button>
+        @if($admins->hasPages())
+        <div class="px-5 py-4" style="border-top: 1px solid rgba(234,179,8,0.1);">
+            {{ $admins->links() }}
         </div>
-    </flux:modal>
+        @endif
+    </div>
+
+    {{-- Modal --}}
+    @if($showModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4"
+         style="background: rgba(2,6,23,0.85); backdrop-filter: blur(8px);"
+         wire:click.self="$set('showModal', false)">
+        <div class="w-full max-w-md rounded-2xl p-6"
+             style="background: linear-gradient(135deg,#0f172a,#1e1b4b); border: 1px solid rgba(234,179,8,0.3);">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-black" style="color: #fde047;">
+                    {{ $editingId ? '✏ Edit Admin' : '➕ Tambah Admin Baru' }}
+                </h3>
+                <button wire:click="$set('showModal', false)" style="color: #475569;">✕</button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Nama Lengkap</label>
+                    <input wire:model="name" type="text" placeholder="John Doe"
+                           class="w-full px-3 py-2.5 rounded-xl text-sm"
+                           style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                    @error('name') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Email</label>
+                    <input wire:model="email" type="email" placeholder="admin@myuos.com"
+                           class="w-full px-3 py-2.5 rounded-xl text-sm"
+                           style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                    @error('email') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">
+                        Password {{ $editingId ? '(Kosongkan jika tidak diubah)' : '' }}
+                    </label>
+                    <input wire:model="password" type="password" placeholder="Minimal 6 karakter"
+                           class="w-full px-3 py-2.5 rounded-xl text-sm"
+                           style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                    @error('password') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Role</label>
+                    <select wire:model="role"
+                            class="w-full px-3 py-2.5 rounded-xl text-sm"
+                            style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0;">
+                        <option value="kasir">Kasir</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                    @error('role') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-6">
+                <button wire:click="save"
+                        class="flex-1 py-2.5 rounded-xl font-bold text-sm btn-gold">
+                    {{ $editingId ? 'Simpan Perubahan' : 'Tambah Admin' }}
+                </button>
+                <button wire:click="$set('showModal', false)"
+                        class="px-5 py-2.5 rounded-xl font-semibold text-sm"
+                        style="background: rgba(148,163,184,0.1); color: #94a3b8; border: 1px solid rgba(148,163,184,0.15);">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>

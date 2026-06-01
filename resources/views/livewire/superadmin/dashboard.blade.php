@@ -1,77 +1,73 @@
-
 <div>
-    <div class="flex items-center justify-between mb-6">
+    {{-- Header --}}
+    <div class="flex items-center justify-between mb-8">
         <div>
-            <flux:heading size="xl">Dashboard Superadmin</flux:heading>
-            <p class="text-sm text-zinc-500 mt-1">{{ now()->translatedFormat('l, d F Y') }}</p>
+            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Dashboard <span class="text-gradient">Superadmin</span></h1>
+            <p class="text-sm mt-1" style="color: #475569;">{{ now()->format('l, d F Y') }}</p>
         </div>
         @if($lowStockCount > 0)
-        <flux:badge variant="red" size="lg" icon="exclamation-triangle">
-            {{ $lowStockCount }} barang stok menipis!
-        </flux:badge>
+        <a href="{{ route('superadmin.service-history') }}"
+           class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
+           style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3);">
+            ⚠ {{ $lowStockCount }} stok menipis!
+        </a>
         @endif
     </div>
 
-    {{-- ===== STAT CARDS ===== --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <flux:card class="p-5">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="w-9 h-9 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                    <flux:icon.banknotes class="size-5 text-green-600"/>
-                </div>
-                <span class="text-xs text-zinc-500 uppercase tracking-wide">Pendapatan Bulan Ini</span>
+    {{-- Stat Cards --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+        {{-- Pendapatan --}}
+        <div class="card-stat p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl icon-green flex items-center justify-center text-lg">💰</div>
+                <p class="text-xs font-semibold uppercase tracking-wide" style="color: #475569;">Pendapatan Bulan Ini</p>
             </div>
-            <p class="text-2xl font-bold text-zinc-900 dark:text-white">
-                Rp {{ number_format($revenueThisMonth, 0, ',', '.') }}
-            </p>
-            <p class="text-xs mt-1 {{ $revenueGrowth >= 0 ? 'text-green-600' : 'text-red-500' }}">
+            <p class="text-2xl font-black" style="color: #34d399;">Rp {{ number_format($revenueThisMonth, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1 font-semibold {{ $revenueGrowth >= 0 ? '' : '' }}"
+               style="color: {{ $revenueGrowth >= 0 ? '#34d399' : '#f87171' }};">
                 {{ $revenueGrowth >= 0 ? '▲' : '▼' }} {{ abs($revenueGrowth) }}% vs bulan lalu
             </p>
-        </flux:card>
+        </div>
 
-        <flux:card class="p-5">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <flux:icon.clipboard-document-list class="size-5 text-blue-600"/>
-                </div>
-                <span class="text-xs text-zinc-500 uppercase tracking-wide">Order Bulan Ini</span>
+        {{-- Order --}}
+        <div class="card-stat p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl icon-blue flex items-center justify-center text-lg">📋</div>
+                <p class="text-xs font-semibold uppercase tracking-wide" style="color: #475569;">Order Bulan Ini</p>
             </div>
-            <p class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $ordersThisMonth }}</p>
-            <p class="text-xs text-zinc-400 mt-1">Hari ini: {{ $ordersToday }} order</p>
-        </flux:card>
+            <p class="text-2xl font-black" style="color: #60a5fa;">{{ $ordersThisMonth }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Hari ini: <span style="color: #93c5fd;">{{ $ordersToday }}</span> order</p>
+        </div>
 
-        <flux:card class="p-5">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                    <flux:icon.users class="size-5 text-purple-600"/>
-                </div>
-                <span class="text-xs text-zinc-500 uppercase tracking-wide">Admin Aktif</span>
+        {{-- Admin --}}
+        <div class="card-stat p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl icon-purple flex items-center justify-center text-lg">👥</div>
+                <p class="text-xs font-semibold uppercase tracking-wide" style="color: #475569;">Admin Aktif</p>
             </div>
-            <p class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $activeAdmins }}</p>
-            <p class="text-xs text-zinc-400 mt-1">dari {{ $totalAdmins }} total admin</p>
-        </flux:card>
+            <p class="text-2xl font-black" style="color: #c4b5fd;">{{ $activeAdmins }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">dari {{ $totalAdmins }} total admin</p>
+        </div>
 
-        <flux:card class="p-5 {{ $lowStockCount > 0 ? 'border-red-200 dark:border-red-900' : '' }}">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="w-9 h-9 rounded-lg {{ $lowStockCount > 0 ? 'bg-red-100 dark:bg-red-900/30' : 'bg-zinc-100 dark:bg-zinc-800' }} flex items-center justify-center">
-                    <flux:icon.archive-box class="size-5 {{ $lowStockCount > 0 ? 'text-red-600' : 'text-zinc-500' }}"/>
-                </div>
-                <span class="text-xs text-zinc-500 uppercase tracking-wide">Stok Menipis</span>
+        {{-- Stok --}}
+        <div class="card-stat p-5" style="{{ $lowStockCount > 0 ? 'border-color: rgba(239,68,68,0.35);' : '' }}">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl {{ $lowStockCount > 0 ? 'icon-red' : 'icon-yellow' }} flex items-center justify-center text-lg">📦</div>
+                <p class="text-xs font-semibold uppercase tracking-wide" style="color: #475569;">Stok Menipis</p>
             </div>
-            <p class="text-2xl font-bold {{ $lowStockCount > 0 ? 'text-red-600' : 'text-zinc-900 dark:text-white' }}">
-                {{ $lowStockCount }}
-            </p>
-            <p class="text-xs text-zinc-400 mt-1">barang perlu restock</p>
-        </flux:card>
+            <p class="text-2xl font-black" style="color: {{ $lowStockCount > 0 ? '#f87171' : '#fde047' }};">{{ $lowStockCount }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">barang perlu restock</p>
+        </div>
     </div>
 
-    {{-- ===== CHART + RECENT ORDERS ===== --}}
+    {{-- Chart + Recent Orders --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {{-- Grafik Pendapatan 6 Bulan --}}
-        <flux:card class="p-5 lg:col-span-2">
-            <flux:heading size="sm" class="mb-4">Grafik Pendapatan 6 Bulan Terakhir</flux:heading>
-            <div class="relative h-56">
+        {{-- Revenue Chart --}}
+        <div class="card-dark p-6 lg:col-span-2">
+            <h3 class="text-sm font-bold mb-4" style="color: #e2e8f0;">📈 Grafik Pendapatan 6 Bulan Terakhir</h3>
+            <div class="relative" style="height: 220px;">
                 <canvas id="revenueChart"
                     x-data="{
                         init() {
@@ -82,13 +78,14 @@
                                     datasets: [{
                                         label: 'Pendapatan',
                                         data: {{ json_encode($chartData) }},
-                                        borderColor: 'rgb(249, 115, 22)',
-                                        backgroundColor: 'rgba(249, 115, 22, 0.08)',
+                                        borderColor: '#eab308',
+                                        backgroundColor: 'rgba(234,179,8,0.08)',
                                         borderWidth: 2.5,
                                         tension: 0.4,
                                         fill: true,
-                                        pointBackgroundColor: 'rgb(249, 115, 22)',
-                                        pointRadius: 4,
+                                        pointBackgroundColor: '#eab308',
+                                        pointBorderColor: '#0a0f1e',
+                                        pointRadius: 5,
                                     }]
                                 },
                                 options: {
@@ -97,19 +94,25 @@
                                     plugins: {
                                         legend: { display: false },
                                         tooltip: {
-                                            callbacks: {
-                                                label: (ctx) => ' Rp ' + ctx.raw.toLocaleString('id-ID')
-                                            }
+                                            backgroundColor: 'rgba(15,23,42,0.95)',
+                                            borderColor: 'rgba(234,179,8,0.3)',
+                                            borderWidth: 1,
+                                            titleColor: '#fde047',
+                                            bodyColor: '#e2e8f0',
+                                            callbacks: { label: (ctx) => ' Rp ' + ctx.raw.toLocaleString('id-ID') }
                                         }
                                     },
                                     scales: {
                                         y: {
-                                            ticks: {
-                                                callback: (v) => 'Rp ' + (v/1000000).toFixed(1) + 'jt'
-                                            },
-                                            grid: { color: 'rgba(0,0,0,0.05)' }
+                                            ticks: { color: '#475569', callback: (v) => 'Rp ' + (v/1000000).toFixed(1) + 'jt' },
+                                            grid: { color: 'rgba(234,179,8,0.06)' },
+                                            border: { color: 'transparent' }
                                         },
-                                        x: { grid: { display: false } }
+                                        x: {
+                                            ticks: { color: '#475569' },
+                                            grid: { display: false },
+                                            border: { color: 'transparent' }
+                                        }
                                     }
                                 }
                             });
@@ -117,33 +120,60 @@
                     }">
                 </canvas>
             </div>
-        </flux:card>
+        </div>
 
-        {{-- Order Terbaru --}}
-        <flux:card class="p-5">
+        {{-- Recent Orders --}}
+        <div class="card-dark p-5">
             <div class="flex items-center justify-between mb-4">
-                <flux:heading size="sm">Order Terbaru</flux:heading>
-                <a href="{{ route('superadmin.service-history') }}" class="text-xs text-orange-500 hover:underline">Lihat semua →</a>
+                <h3 class="text-sm font-bold" style="color: #e2e8f0;">🕐 Order Terbaru</h3>
+                <a href="{{ route('superadmin.service-history') }}" class="text-xs font-semibold hover:underline" style="color: #eab308;">Semua →</a>
             </div>
             <div class="space-y-3">
                 @forelse($recentOrders as $order)
-                <div class="flex items-start gap-3 pb-3 border-b border-zinc-100 dark:border-zinc-700 last:border-0 last:pb-0">
-                    <div class="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 text-xs font-bold flex-shrink-0">
-                        {{ substr($order->customer_name, 0, 1) }}
+                <div class="flex items-start gap-3 pb-3 last:pb-0" style="border-bottom: 1px solid rgba(234,179,8,0.08);">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white flex-shrink-0"
+                         style="background: linear-gradient(135deg,#1d4ed8,#7c3aed);">
+                        {{ strtoupper(substr($order->customer_name, 0, 1)) }}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="font-medium text-sm truncate">{{ $order->customer_name }}</p>
-                        <p class="text-xs text-zinc-400 truncate">{{ $order->vehicle_type }}</p>
-                        <p class="text-xs text-zinc-500 mt-0.5">{{ $order->created_at->diffForHumans() }}</p>
+                        <p class="text-sm font-semibold truncate" style="color: #e2e8f0;">{{ $order->customer_name }}</p>
+                        <p class="text-xs truncate" style="color: #475569;">{{ $order->vehicle_type }}</p>
+                        <p class="text-xs mt-0.5" style="color: #334155;">{{ $order->created_at->diffForHumans() }}</p>
                     </div>
-                    <span class="text-xs font-semibold text-green-700 dark:text-green-400 flex-shrink-0">
+                    <span class="text-xs font-bold flex-shrink-0" style="color: #34d399;">
                         Rp {{ number_format($order->grand_total/1000, 0, ',', '.') }}rb
                     </span>
                 </div>
                 @empty
-                <p class="text-zinc-400 text-sm text-center py-4">Belum ada order.</p>
+                <p class="text-center py-8 text-sm" style="color: #334155;">Belum ada order.</p>
                 @endforelse
             </div>
-        </flux:card>
+        </div>
+    </div>
+
+    {{-- Quick Links --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
+        <a href="{{ route('superadmin.admins.index') }}"
+           class="card-dark p-4 flex items-center gap-3 rounded-xl transition-all hover:border-yellow-400/40"
+           style="text-decoration: none;">
+            <span class="text-2xl">👥</span>
+            <span class="text-sm font-semibold" style="color: #93c5fd;">Kelola Admin</span>
+        </a>
+        <a href="{{ route('superadmin.service-history') }}"
+           class="card-dark p-4 flex items-center gap-3 rounded-xl transition-all hover:border-yellow-400/40"
+           style="text-decoration: none;">
+            <span class="text-2xl">📋</span>
+            <span class="text-sm font-semibold" style="color: #93c5fd;">Histori Servis</span>
+        </a>
+        <a href="{{ route('superadmin.reports') }}"
+           class="card-dark p-4 flex items-center gap-3 rounded-xl transition-all hover:border-yellow-400/40"
+           style="text-decoration: none;">
+            <span class="text-2xl">📊</span>
+            <span class="text-sm font-semibold" style="color: #93c5fd;">Laporan</span>
+        </a>
+        <div class="card-dark p-4 flex items-center gap-3 rounded-xl">
+            <span class="text-2xl">⚙</span>
+            <span class="text-sm font-semibold" style="color: #475569;">Pengaturan</span>
+        </div>
     </div>
 </div>
