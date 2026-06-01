@@ -6,179 +6,517 @@
     <title>MyUOS — Bengkel Servis</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    @fluxStyles
     @livewireStyles
     <style>
+        /* ===== ROOT VARIABLES ===== */
         :root {
-            --brand-primary: #2563eb;
-            --brand-dark:    #1e3a8a;
-            --brand-accent:  #eab308;
-            --brand-gold:    #f59e0b;
-            --sidebar-bg:    linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            --brand-primary: #1e40af;
+            --brand-dark: #000000;
+            --brand-accent: #eab308;
+            --brand-gold: #f59e0b;
+            --sidebar-bg: linear-gradient(180deg, #000000 0%, #020c24 40%, #000000 100%);
         }
-        body { background: linear-gradient(135deg, #000000 0%, #020617 40%, #0a1628 100%); min-height: 100vh; }
 
-        /* Sidebar */
+        /* ===== BASE STYLES ===== */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: #1f2937;
+            font-family: 'Figtree', sans-serif;
+        }
+
+        /* ===== SIDEBAR STYLES ===== */
         .sidebar-custom {
-            background: linear-gradient(180deg, #020617 0%, #0f172a 30%, #1e1b4b 70%, #0f172a 100%) !important;
-            border-right: 1px solid rgba(234,179,8,0.15) !important;
+            background: #ffffff !important;
+            border-right: 1px solid #e5e7eb !important;
+            transition: all 0.3s ease;
         }
+
         .sidebar-brand {
-            background: linear-gradient(135deg, #1d4ed8, #7c3aed);
-            border-radius: 10px;
-            padding: 6px 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
         }
+
+        .sidebar-brand:hover {
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.15);
+        }
+
         /* Nav item active / hover */
         .nav-item-active {
-            background: linear-gradient(90deg, rgba(234,179,8,0.18), rgba(37,99,235,0.18)) !important;
-            border-left: 3px solid #eab308 !important;
-            color: #fde047 !important;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.15), rgba(102, 126, 234, 0.08)) !important;
+            border-left: 3px solid #667eea !important;
+            color: #667eea !important;
+            font-weight: 600;
+            box-shadow: inset 0 0 8px rgba(102, 126, 234, 0.1);
         }
+
+        .nav-item-hover {
+            transition: all 0.2s ease;
+            color: #1f2937 !important;
+        }
+
         .nav-item-hover:hover {
-            background: rgba(234,179,8,0.08) !important;
-            color: #fde047 !important;
+            background: rgba(102, 126, 234, 0.08) !important;
+            color: #667eea !important;
+            transform: translateX(4px);
         }
 
-        /* Cards */
+        /* ===== CARD STYLES ===== */
         .card-dark {
-            background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,27,75,0.8));
-            border: 1px solid rgba(234,179,8,0.12);
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
-            backdrop-filter: blur(12px);
-        }
-        .card-stat {
-            background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(23,37,84,0.9));
-            border: 1px solid rgba(234,179,8,0.2);
-            border-radius: 14px;
-            transition: transform .2s, border-color .2s, box-shadow .2s;
-        }
-        .card-stat:hover {
-            transform: translateY(-2px);
-            border-color: rgba(234,179,8,0.45);
-            box-shadow: 0 8px 32px rgba(234,179,8,0.12);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Gradient text */
+        .card-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), transparent);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-dark:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-dark:hover::before {
+            opacity: 1;
+        }
+
+        .orchid-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-stat {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-stat::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.08), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-stat:hover {
+            transform: translateY(-4px);
+            border-color: #d1d5db;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-stat:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== TEXT STYLES ===== */
         .text-gradient {
-            background: linear-gradient(135deg, #60a5fa, #eab308);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 700;
         }
 
-        /* Buttons */
-        .btn-primary-custom {
-            background: linear-gradient(135deg, #1d4ed8, #7c3aed) !important;
-            border: none !important;
-            color: #fff !important;
-            transition: opacity .2s, transform .15s;
+        h1, h2, .page-title {
+            color: #1f2937;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
-        .btn-primary-custom:hover { opacity: .92; transform: translateY(-1px); }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.5rem; }
+
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* ===== BUTTON STYLES ===== */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            border: 1px solid rgba(102, 126, 234, 0.4) !important;
+            color: #fff !important;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            border-color: #764ba2 !important;
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
+        }
 
         .btn-gold {
-            background: linear-gradient(135deg, #d97706, #eab308) !important;
-            border: none !important;
-            color: #0a0f1e !important;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            border: 1px solid rgba(102, 126, 234, 0.6) !important;
+            color: #ffffff !important;
             font-weight: 700 !important;
+            transition: all 0.2s ease;
         }
-        .btn-gold:hover { opacity: .9; }
 
-        /* Tables */
+        .btn-gold:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+        }
+
+        /* ===== TABLE STYLES ===== */
         .table-dark-row {
-            background: rgba(15,23,42,0.7);
-            border-bottom: 1px solid rgba(234,179,8,0.08);
-            transition: background .15s;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.15s ease;
         }
-        .table-dark-row:hover { background: rgba(30,27,75,0.7); }
 
-        /* Badges */
-        .badge-active  { background: rgba(16,185,129,0.18); color: #34d399; border: 1px solid rgba(16,185,129,.3); }
-        .badge-warning { background: rgba(234,179,8,0.18);  color: #fde047; border: 1px solid rgba(234,179,8,.3); }
-        .badge-danger  { background: rgba(239,68,68,0.18);  color: #f87171; border: 1px solid rgba(239,68,68,.3); }
-        .badge-blue    { background: rgba(59,130,246,0.18); color: #93c5fd; border: 1px solid rgba(59,130,246,.3); }
-        .badge-gold    { background: rgba(234,179,8,0.18);  color: #fde047; border: 1px solid rgba(234,179,8,.3); }
-
-        /* Input fields */
-        .input-dark {
-            background: rgba(15,23,42,0.8) !important;
-            border: 1px solid rgba(234,179,8,0.2) !important;
-            color: #e2e8f0 !important;
-            border-radius: 8px !important;
+        .table-dark-row:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            box-shadow: inset 0 0 8px rgba(102, 126, 234, 0.05);
         }
-        .input-dark:focus {
-            border-color: rgba(234,179,8,0.5) !important;
-            box-shadow: 0 0 0 3px rgba(234,179,8,0.1) !important;
-        }
-        .input-dark::placeholder { color: #475569 !important; }
 
-        /* Alert/callout */
-        .alert-gold {
-            background: rgba(234,179,8,0.08);
-            border-left: 3px solid #eab308;
-            border-radius: 8px;
-            padding: 12px 16px;
+        /* ===== BADGE STYLES ===== */
+        .badge-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-warning {
+            background: rgba(234, 179, 8, 0.15);
             color: #fde047;
-        }
-        .alert-danger {
-            background: rgba(239,68,68,0.08);
-            border-left: 3px solid #ef4444;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #f87171;
-        }
-        .alert-success {
-            background: rgba(16,185,129,0.08);
-            border-left: 3px solid #10b981;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #34d399;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
 
-        /* Main content area */
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.18);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-blue {
+            background: rgba(59, 130, 246, 0.18);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-gold {
+            background: rgba(234, 179, 8, 0.18);
+            color: #fde047;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* ===== INPUT FIELD STYLES ===== */
+        .input-dark {
+            background: rgba(0, 0, 0, 0.85) !important;
+            border: 1px solid rgba(234, 179, 8, 0.25) !important;
+            color: #e2e8f0 !important;
+            border-radius: 10px !important;
+            transition: all 0.2s ease !important;
+            padding: 10px 14px !important;
+            font-size: 0.95rem !important;
+        }
+
+        .input-dark:focus {
+            border-color: rgba(234, 179, 8, 0.6) !important;
+            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.15) !important;
+            background: rgba(0, 0, 0, 0.95) !important;
+        }
+
+        .input-dark::placeholder {
+            color: #475569 !important;
+            opacity: 0.7 !important;
+        }
+
+        .input-dark:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ===== ALERT STYLES ===== */
+        .alert-gold {
+            background: rgba(234, 179, 8, 0.08);
+            border-left: 4px solid #eab308;
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #fde047;
+            backdrop-filter: blur(8px);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.08);
+            border-left: 4px solid #ef4444;
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #f87171;
+            backdrop-filter: blur(8px);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid #10b981;
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #34d399;
+            backdrop-filter: blur(8px);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.08);
+            border-left: 4px solid #3b82f6;
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #93c5fd;
+            backdrop-filter: blur(8px);
+        }
+
+        /* ===== CONTENT AREA ===== */
         .main-content {
-            background: linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 50%, #0a1628 100%);
+            background: linear-gradient(135deg, #000000 0%, #04112c 50%, #000000 100%);
             min-height: 100vh;
             color: #e2e8f0;
         }
 
-        /* Heading styles */
-        h1, h2, .page-title { color: #f1f5f9; }
-        .page-subtitle { color: #64748b; }
+        /* ===== UTILITY CLASSES ===== */
+        .sep-gold {
+            border-color: rgba(234, 179, 8, 0.25);
+        }
 
-        /* Separator */
-        .sep-gold { border-color: rgba(234,179,8,0.2); }
+        .progress-gold {
+            background: linear-gradient(90deg, #000000, #eab308);
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
 
-        /* Progress bar */
-        .progress-gold { background: linear-gradient(90deg, #d97706, #eab308); height: 4px; border-radius: 2px; }
+        .progress-gold::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #fde047, transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
 
         /* Icon containers */
-        .icon-blue   { background: rgba(59,130,246,0.15); color: #60a5fa; }
-        .icon-green  { background: rgba(16,185,129,0.15); color: #34d399; }
-        .icon-yellow { background: rgba(234,179,8,0.15);  color: #fde047; }
-        .icon-red    { background: rgba(239,68,68,0.15);  color: #f87171; }
-        .icon-purple { background: rgba(167,139,250,0.15); color: #c4b5fd; }
+        .icon-blue {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border-radius: 12px;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #0a0f1e; }
-        ::-webkit-scrollbar-thumb { background: rgba(234,179,8,0.3); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(234,179,8,0.5); }
+        .icon-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border-radius: 12px;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        /* Flux overrides */
-        flux-sidebar { --flux-sidebar-width: 240px; }
+        .icon-yellow {
+            background: rgba(234, 179, 8, 0.15);
+            color: #fde047;
+            border-radius: 12px;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-red {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border-radius: 12px;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-purple {
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+            border-radius: 12px;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== SCROLLBAR STYLES ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, rgba(234, 179, 8, 0.4), rgba(59, 130, 246, 0.3));
+            border-radius: 3px;
+            border: 1px solid rgba(234, 179, 8, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(234, 179, 8, 0.6), rgba(59, 130, 246, 0.5));
+        }
+
+        /* ===== COMPONENT OVERRIDES ===== */
+        flux-sidebar {
+            --flux-sidebar-width: 260px;
+            --flux-sidebar-bg: linear-gradient(180deg, #000000 0%, #020c24 40%, #000000 100%);
+        }
+
+        /* Tables */
+        table {
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            border-bottom: 2px solid rgba(234, 179, 8, 0.2);
+        }
+
+        thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: #e2e8f0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(234, 179, 8, 0.1);
+        }
+
+        /* Links */
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+        /* Form elements */
+        select,
+        textarea {
+            font-family: 'Figtree', sans-serif;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.25rem; }
+            .card-stat { min-height: auto; }
+        }
     </style>
 </head>
-<body class="h-full" style="background: linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 40%, #0a1628 100%);">
+<body class="h-full">
 
-<flux:sidebar sticky stashable class="sidebar-custom" style="background: linear-gradient(180deg, #020617 0%, #0f172a 30%, #1e1b4b 70%, #0f172a 100%); border-right: 1px solid rgba(234,179,8,0.15);">
+<flux:sidebar sticky stashable class="sidebar-custom">
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark" style="color: #94a3b8;" />
 
     {{-- Logo/Brand --}}
-    <div class="flex items-center gap-3 px-4 py-5" style="border-bottom: 1px solid rgba(234,179,8,0.15);">
+    <div class="flex items-center gap-3 px-4 py-5" style="border-bottom: 1px solid #e5e7eb;">
         <div class="sidebar-brand w-10 h-10 flex items-center justify-center text-white text-lg font-black rounded-xl shadow-lg">🔧</div>
         <div>
-            <p class="font-black text-white text-base tracking-wide">MyUOS</p>
-            <p class="text-xs font-medium" style="color: #eab308;">{{ ucfirst(auth()->user()->role) }}</p>
+            <p class="font-black text-gray-900 text-base tracking-wide">MyUOS</p>
+            <p class="text-xs font-medium" style="color: #667eea;">{{ ucfirst(auth()->user()->role) }}</p>
         </div>
     </div>
 
@@ -188,7 +526,7 @@
         {{-- SUPERADMIN --}}
         @if(auth()->user()->isSuperAdmin())
         <div class="mb-2">
-            <p class="px-3 py-1 text-xs font-bold uppercase tracking-widest" style="color: #eab308;">Superadmin</p>
+            <p class="px-3 py-1 text-xs font-bold uppercase tracking-widest" style="color: #667eea;">Superadmin</p>
         </div>
         @php $saRoutes = [
             ['icon' => '⊞', 'label' => 'Dashboard',         'route' => 'superadmin.dashboard',      'match' => 'superadmin.*dashboard'],
@@ -200,7 +538,7 @@
             @php $active = request()->routeIs($item['match']); @endphp
             <a href="{{ route($item['route']) }}"
                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 nav-item-hover {{ $active ? 'nav-item-active' : '' }}"
-               style="{{ $active ? 'background: linear-gradient(90deg,rgba(234,179,8,.15),rgba(37,99,235,.12)); border-left: 3px solid #eab308; color: #fde047;' : 'color: #94a3b8;' }}">
+               style="{{ $active ? '' : 'color: #6b7280;' }}">
                 <span class="text-base w-5 text-center">{{ $item['icon'] }}</span>
                 <span>{{ $item['label'] }}</span>
             </a>
@@ -210,7 +548,7 @@
         {{-- MANAGER --}}
         @if(auth()->user()->isManager())
         <div class="mb-2 mt-2">
-            <p class="px-3 py-1 text-xs font-bold uppercase tracking-widest" style="color: #eab308;">Manager</p>
+            <p class="px-3 py-1 text-xs font-bold uppercase tracking-widest" style="color: #667eea;">Manager</p>
         </div>
         @php $mgRoutes = [
             ['icon' => '⊞', 'label' => 'Dashboard',    'route' => 'manager.dashboard',  'match' => 'manager.*dashboard'],
@@ -222,7 +560,7 @@
             @php $active = request()->routeIs($item['match']); @endphp
             <a href="{{ route($item['route']) }}"
                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 nav-item-hover {{ $active ? 'nav-item-active' : '' }}"
-               style="{{ $active ? 'background: linear-gradient(90deg,rgba(234,179,8,.15),rgba(37,99,235,.12)); border-left: 3px solid #eab308; color: #fde047;' : 'color: #94a3b8;' }}">
+               style="{{ $active ? '' : 'color: #6b7280;' }}">
                 <span class="text-base w-5 text-center">{{ $item['icon'] }}</span>
                 <span>{{ $item['label'] }}</span>
             </a>
@@ -232,7 +570,7 @@
         {{-- KASIR --}}
         @if(auth()->user()->isKasir())
         <div class="mb-2 mt-2">
-            <p class="px-3 py-1 text-xs font-bold uppercase tracking-widest" style="color: #eab308;">Kasir</p>
+            <p class="px-3 py-1 text-xs font-bold uppercase tracking-widest" style="color: #667eea;">Kasir</p>
         </div>
         @php $krRoutes = [
             ['icon' => '⊞', 'label' => 'Dashboard',       'route' => 'kasir.dashboard',     'match' => 'kasir.*dashboard'],
@@ -243,7 +581,7 @@
             @php $active = request()->routeIs($item['match']); @endphp
             <a href="{{ route($item['route']) }}"
                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 nav-item-hover {{ $active ? 'nav-item-active' : '' }}"
-               style="{{ $active ? 'background: linear-gradient(90deg,rgba(234,179,8,.15),rgba(37,99,235,.12)); border-left: 3px solid #eab308; color: #fde047;' : 'color: #94a3b8;' }}">
+               style="{{ $active ? '' : 'color: #6b7280;' }}">
                 <span class="text-base w-5 text-center">{{ $item['icon'] }}</span>
                 <span>{{ $item['label'] }}</span>
             </a>
@@ -252,35 +590,35 @@
     </nav>
 
     {{-- User footer --}}
-    <div class="px-4 py-4" style="border-top: 1px solid rgba(234,179,8,0.15);">
+    <div class="px-4 py-4" style="border-top: 1px solid #e5e7eb;">
         <div class="flex items-center gap-3 mb-3">
             <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white"
-                 style="background: linear-gradient(135deg,#1d4ed8,#7c3aed);">
+                 style="background: linear-gradient(135deg, #667eea, #764ba2);">
                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold truncate" style="color: #e2e8f0;">{{ auth()->user()->name }}</p>
-                <p class="text-xs truncate" style="color: #475569;">{{ auth()->user()->email }}</p>
+                <p class="text-sm font-semibold truncate" style="color: #1f2937;">{{ auth()->user()->name }}</p>
+                <p class="text-xs truncate" style="color: #6b7280;">{{ auth()->user()->email }}</p>
             </div>
         </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
                     class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all"
-                    style="color: #f87171; background: rgba(239,68,68,0.08);"
-                    onmouseover="this.style.background='rgba(239,68,68,0.15)'"
-                    onmouseout="this.style.background='rgba(239,68,68,0.08)'">
+                    style="color: #dc2626; background: #fee2e2;"
+                    onmouseover="this.style.background='#fecaca'"
+                    onmouseout="this.style.background='#fee2e2'">
                 <span>⏻</span> Keluar
             </button>
         </form>
     </div>
 </flux:sidebar>
 
-<flux:main style="background: linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 50%, #0a1628 100%); min-height: 100vh;">
+<flux:main>
     {{-- Mobile header --}}
-    <div class="flex items-center gap-3 px-4 py-3 lg:hidden" style="border-bottom: 1px solid rgba(234,179,8,0.15); background: rgba(2,6,23,0.95);">
-        <flux:sidebar.toggle icon="bars-3" style="color: #94a3b8;" />
-        <span class="font-black text-white text-base">🔧 MyUOS</span>
+    <div class="flex items-center gap-3 px-4 py-3 lg:hidden" style="border-bottom: 1px solid #e5e7eb; background: #ffffff;">
+        <flux:sidebar.toggle icon="bars-3" style="color: #667eea;" />
+        <span class="font-black text-gray-900 text-base">🔧 MyUOS</span>
     </div>
 
     <div class="p-6">
@@ -288,7 +626,6 @@
     </div>
 </flux:main>
 
-@fluxScripts
 @livewireScripts
 </body>
 </html>

@@ -7,27 +7,35 @@
 
         <title>{{ config('app.name', 'MyUOS') }}</title>
 
+        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-200 antialiased" style="background: linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 40%, #0a1628 100%);">
+    
+    <!-- Background Gradient Sama dengan Dashboard -->
+    <body class="font-sans text-gray-900 antialiased" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh;">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+            
+            <!-- Logo Aplikasi -->
             <div>
                 <a href="/" wire:navigate class="flex flex-col items-center">
-                    <div class="w-16 h-16 flex items-center justify-center text-white text-3xl font-black rounded-2xl shadow-lg mb-2" style="background: linear-gradient(135deg, #1d4ed8, #7c3aed);">
+                    <div class="w-16 h-16 flex items-center justify-center text-white text-3xl font-black rounded-2xl shadow-lg mb-2" style="background: linear-gradient(135deg, #667eea, #764ba2);">
                         🔧
                     </div>
-                    <span class="text-2xl font-black tracking-wide text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #60a5fa, #eab308);">
+                    <span class="text-3xl font-black tracking-wide" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                         MyUOS
                     </span>
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-8 shadow-2xl overflow-hidden sm:rounded-xl border" style="background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,27,75,0.9)); border-color: rgba(234,179,8,0.2); backdrop-filter: blur(12px);">
+            <!-- Card Form Login / Register -->
+            <div class="w-full sm:max-w-md mt-6 px-6 py-8 shadow-lg overflow-hidden sm:rounded-xl" style="background: #ffffff; border: 1px solid #e5e7eb;">
                 {{ $slot }}
             </div>
+            
         </div>
     </body>
 </html>

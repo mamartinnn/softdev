@@ -1,15 +1,14 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+    <div class="max-w-5xl">
+        <div class="card-dark p-8 rounded-2xl">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
+                     style="background: linear-gradient(135deg, rgba(234,179,8,0.2), rgba(30,64,175,0.2)); border: 1px solid rgba(234,179,8,0.2);">
+                    ✅
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black" style="color: #34d399;">Anda sudah login!</h1>
+                    <p class="text-sm" style="color: #94a3b8;">Selamat datang di MyUOS - Sistem Manajemen Bengkel Servis</p>
                 </div>
             </div>
         </div>

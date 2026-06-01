@@ -13,8 +13,16 @@ use App\Livewire\Kasir\Dashboard           as KasirDashboard;
 use App\Livewire\Kasir\CreateServiceOrder;
 use App\Livewire\Kasir\OrderList;
 
-// Root redirect ke login
-Route::get('/', fn() => redirect()->route('login'));
+// Root route
+Route::get('/', fn() => auth()->check() 
+    ? match(auth()->user()->role) {
+        'superadmin' => redirect()->route('superadmin.dashboard'),
+        'manager'    => redirect()->route('manager.dashboard'),
+        'kasir'      => redirect()->route('kasir.dashboard'),
+        default      => redirect('/'),
+    }
+    : view('welcome-new')
+)->name('welcome');
 
 // Auth routes (Breeze Volt)
 require __DIR__.'/auth.php';
