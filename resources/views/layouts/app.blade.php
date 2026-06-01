@@ -16,7 +16,7 @@
             --brand-gold:    #f59e0b;
             --sidebar-bg:    linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
         }
-        body { background: linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 40%, #0a1628 100%); min-height: 100vh; }
+        body { background: linear-gradient(135deg, #000000 0%, #020617 40%, #0a1628 100%); min-height: 100vh; }
 
         /* Sidebar */
         .sidebar-custom {

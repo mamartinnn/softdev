@@ -6,11 +6,10 @@
             <p class="text-sm mt-1" style="color: #475569;">{{ now()->format('l, d F Y') }}</p>
         </div>
         @if($lowStockCount > 0)
-        <a href="{{ route('superadmin.service-history') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
-           style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3);">
-            ⚠ {{ $lowStockCount }} stok menipis!
-        </a>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
+             style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3);">
+            ⚠ {{ $lowStockCount }} stok menipis
+        </div>
         @endif
     </div>
 

@@ -77,7 +77,7 @@
                         <td class="px-4 py-3 text-xs" style="color: #475569;">{{ $order->created_at->format('d/m/Y') }}</td>
                         <td class="px-4 py-3">
                             @if($order->status === 'done')
-                            <a href="{{ route('kasir.orders.receipt', $order->id) }}" target="_blank"
+                            <a href="{{ route('superadmin.receipt', $order->id) }}" target="_blank"
                                wire:click.stop=""
                                class="text-xs px-2 py-1 rounded-lg" style="background: rgba(234,179,8,0.12); color: #eab308;">🖨</a>
                             @endif
