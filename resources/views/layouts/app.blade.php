@@ -550,11 +550,10 @@
 
 <flux:sidebar stashable class="sidebar-custom" x-data="{ open: true }" @stash="open = false" @unstash="open = true">
     <div class="flex items-center justify-between px-4 py-5 gap-2" style="border-bottom: 1px solid #e5e7eb; min-height: 80px;">
-        {{-- Logo/Brand --}}
+        {{-- Logo/Brand --}}<p class="font-black text-gray-900 text-base tracking-wide truncate">MyUOS</p>
         <div class="flex items-center gap-3 flex-1 min-w-0">
            <img src="/images/logo.png" alt="Logo" class="w-10 h-10 rounded-lg object-cover" />  
             <div class="hidden sm:block min-w-0">
-                <p class="font-black text-gray-900 text-base tracking-wide truncate">MyUOS</p>
                 <p class="text-xs font-medium truncate" style="color: #667eea;">{{ ucfirst(auth()->user()->role) }}</p>
             </div>
         </div>
