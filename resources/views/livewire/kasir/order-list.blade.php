@@ -21,17 +21,16 @@
         <flux:input
             wire:model.live.debounce="search"
             placeholder="Cari nama / no. order / plat..."
-            icon="magnifying-glass"
             class="w-60"
         />
-        <flux:select wire:model.live="filterStatus" class="w-36">
-            <option value="">Semua Status</option>
-            <option value="open">Antrian</option>
-            <option value="in_progress">Dikerjakan</option>
-            <option value="done">Selesai</option>
-            <option value="cancelled">Dibatalkan</option>
+        <flux:select wire:model.live="filterStatus" class="w-36" style="color: #000000;">
+            <option value=""style="color: #000000;">Semua Status</option>
+            <option value="open"style="color: #000000;">Antrian</option>
+            <option value="in_progress"style="color: #000000;">Dikerjakan</option>
+            <option value="done"style="color: #000000;">Selesai</option>
+            <option value="cancelled"style="color: #000000;">Dibatalkan</option>
         </flux:select>
-        <flux:input wire:model.live="filterDate" type="date" class="w-44" />
+        <flux:input wire:model.live="filterDate" type="date" class="w-44"style="color: #000000;" />
 
         <a href="{{ route('kasir.orders.create') }}">
             <flux:button variant="primary" icon="plus">Order Baru</flux:button>
@@ -64,17 +63,17 @@
                 @forelse($orders as $order)
                 <tr class="table-dark-row">
                     <td class="px-6 py-4 font-mono text-xs font-semibold" style="color: #e2e8f0;">{{ $order->order_number }}</td>
-                    <td class="px-6 py-4" style="color: #e2e8f0;">{{ $order->customer_name }}</td>
+                    <td class="px-6 py-4" style="color: #000000;">{{ $order->customer_name }}</td>
                     <td class="px-6 py-4">
-                        <p class="font-medium" style="color: #e2e8f0;">{{ $order->vehicle_type }}</p>
-                        <p class="text-xs" style="color: #94a3b8;">{{ $order->plate_number }}</p>
+                        <p class="font-medium" style="color: #000000;">{{ $order->vehicle_type }}</p>
+                        <p class="text-xs" style="color: #000000;">{{ $order->plate_number }}</p>
                     </td>
                     <td class="px-6 py-4">
                         @php $sc = $statusConfig[$order->status] ?? ['label' => $order->status, 'color' => '#94a3b8', 'bg' => 'rgba(148,163,184,0.15)']; @endphp
                         <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background: {{ $sc['bg'] }}; color: {{ $sc['color'] }};">{{ $sc['label'] }}</span>
                     </td>
                     <td class="px-6 py-4 font-semibold" style="color: #34d399;">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</td>
-                    <td class="px-6 py-4 text-xs" style="color: #94a3b8;">{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                    <td class="px-6 py-4 text-xs" style="color: #000000;">{{ $order->created_at->format('d/m/Y H:i') }}</td>
                     <td class="px-6 py-4">
                         <div class="flex gap-2">
                             <button wire:click="viewDetail({{ $order->id }})" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2);">👁️</button>
