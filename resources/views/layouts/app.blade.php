@@ -40,6 +40,14 @@
             background: #ffffff !important;
             border-right: 1px solid #e5e7eb !important;
             transition: all 0.3s ease;
+            min-width: 260px !important;
+            width: 100% !important;
+        }
+        
+        .sidebar-custom > div:first-child {
+            display: flex;
+            flex-wrap: wrap;
+            white-space: normal;
         }
 
         .sidebar-brand {
@@ -457,6 +465,38 @@
             --flux-sidebar-width: 260px;
             --flux-sidebar-bg: linear-gradient(180deg, #000000 0%, #020c24 40%, #000000 100%);
         }
+        
+        /* Responsive sidebar behavior */
+        @media (max-width: 1023px) {
+            flux-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 40;
+                width: 260px;
+                display: none;
+            }
+            
+            flux-sidebar[open] {
+                display: flex;
+            }
+            
+            /* Overlay backdrop */
+            flux-sidebar::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            flux-sidebar {
+                display: flex !important;
+            }
+        }
 
         /* Tables */
         table {
@@ -508,16 +548,18 @@
 </head>
 <body class="h-full">
 
-<flux:sidebar sticky stashable class="sidebar-custom">
-    <flux:sidebar.toggle class="lg:hidden" icon="x-mark" style="color: #94a3b8;" />
-
-    {{-- Logo/Brand --}}
-    <div class="flex items-center gap-3 px-4 py-5" style="border-bottom: 1px solid #e5e7eb;">
-        <div class="sidebar-brand w-10 h-10 flex items-center justify-center text-white text-lg font-black rounded-xl shadow-lg">🔧</div>
-        <div>
-            <p class="font-black text-gray-900 text-base tracking-wide">MyUOS</p>
-            <p class="text-xs font-medium" style="color: #667eea;">{{ ucfirst(auth()->user()->role) }}</p>
+<flux:sidebar stashable class="sidebar-custom" x-data="{ open: true }" @stash="open = false" @unstash="open = true">
+    <div class="flex items-center justify-between px-4 py-5 gap-2" style="border-bottom: 1px solid #e5e7eb; min-height: 80px;">
+        {{-- Logo/Brand --}}
+        <div class="flex items-center gap-3 flex-1 min-w-0">
+            <div class="sidebar-brand w-10 h-10 flex-shrink-0 flex items-center justify-center text-white text-lg font-black rounded-xl shadow-lg">🔧</div>
+            <div class="hidden sm:block min-w-0">
+                <p class="font-black text-gray-900 text-base tracking-wide truncate">MyUOS</p>
+                <p class="text-xs font-medium truncate" style="color: #667eea;">{{ ucfirst(auth()->user()->role) }}</p>
+            </div>
         </div>
+        {{-- Close button for mobile --}}
+        <flux:sidebar.toggle class="lg:hidden flex-shrink-0" icon="x-mark" style="color: #94a3b8;" />
     </div>
 
     {{-- Navigation --}}
@@ -617,9 +659,12 @@
 
 <flux:main>
     {{-- Mobile header --}}
-    <div class="flex items-center gap-3 px-4 py-3 lg:hidden" style="border-bottom: 1px solid #e5e7eb; background: #ffffff;">
-        <flux:sidebar.toggle icon="bars-3" style="color: #667eea;" />
-        <span class="font-black text-gray-900 text-base">🔧 MyUOS</span>
+    <div class="flex items-center justify-between gap-2 px-4 py-3 lg:hidden" style="border-bottom: 1px solid #e5e7eb; background: #ffffff; min-height: 60px;">
+        <flux:sidebar.toggle icon="bars-3" class="flex-shrink-0" style="color: #667eea;" />
+        <span class="font-black text-gray-900 text-base flex-1 text-center truncate">🔧 MyUOS</span>
+        <div class="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-black text-white" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+        </div>
     </div>
 
     <div class="p-6 relative min-h-screen">
