@@ -34,12 +34,12 @@ class ExpenditureReport extends Component
                   ->orWhere('sku', 'like', "%{$this->search}%")
             );
         }
+        
+// Calculate totals
+       $totalQuantity = $query->sum('quantity');
+$totalCost = (clone $query)->selectRaw('SUM(quantity * price_per_unit) as total')->value('total') ?? 0;
 
-        $transactions = $query->latest()->paginate(15);
-
-        // Calculate totals
-        $totalQuantity = $query->sum('quantity');
-        $totalCost = $query->selectRaw('SUM(quantity * price_per_unit) as total')->value('total') ?? 0;
+$transactions = $query->latest()->paginate(15);
 
         // Month/Year options
         $months = [
