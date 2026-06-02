@@ -41,19 +41,15 @@ class OrderList extends Component
             return;
         }
 
-        // Restore stok barang dan hapus transaksi stok
+        // Restore stok barang
         foreach ($order->items as $serviceOrderItem) {
             $item = $serviceOrderItem->item;
             if ($item) {
                 $item->increment('stock', $serviceOrderItem->quantity);
             }
-            // Hapus stock transaction yang terkait dengan order ini
-            StockTransaction::where('item_id', $serviceOrderItem->item_id)
-                ->where('type', 'out')
-                ->where('note', 'like', "%Servis order #{$order->order_number}%")
-                ->delete();
         }
 
+        // Stock transactions akan otomatis terhapus via cascadeOnDelete
         $order->delete();
         session()->flash('success', 'Order berhasil dihapus dan stok telah dikembalikan.');
     }

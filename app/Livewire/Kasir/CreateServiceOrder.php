@@ -157,6 +157,7 @@ class CreateServiceOrder extends Component
 
             StockTransaction::create([
                 'item_id'        => $si['item_id'],
+                'service_order_id' => $order->id,
                 'type'           => 'out',
                 'quantity'       => $si['qty'],
                 'price_per_unit' => $si['price'],

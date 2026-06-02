@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class StockTransaction extends Model
 {
     protected $fillable = [
-        'item_id', 'type', 'quantity', 'price_per_unit', 'note', 'user_id'
+        'item_id', 'service_order_id', 'type', 'quantity', 'price_per_unit', 'note', 'user_id'
     ];
 
     protected function casts(): array
@@ -23,5 +23,10 @@ class StockTransaction extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function serviceOrder()
+    {
+        return $this->belongsTo(ServiceOrder::class);
     }
 }
