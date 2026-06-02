@@ -95,22 +95,22 @@
         </div>
         
         {{-- Expenses Summary --}}
-        <div style="border-top: 2px solid rgba(234,179,8,0.12); padding: 1.5rem; background: rgba(15,23,42,0.3);">
+        <div style="border-top: 2px solid rgba(255, 191, 0, 0.12); padding: 1.5rem; background: rgba(255, 255, 253, 0.3);">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #94a3b8;">Total Pengeluaran Bulan Ini</p>
+                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #080808;">Total Pengeluaran Bulan Ini</p>
                     <p class="text-xl font-black" style="color: #f87171;">Rp {{ number_format($totalExpenses, 0, ',', '.') }}</p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #94a3b8;">Total Pendapatan Bulan Ini</p>
+                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #000000;">Total Pendapatan Bulan Ini</p>
                     <p class="text-xl font-black" style="color: #34d399;">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #94a3b8;">Laba Bersih</p>
+                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #000000;">Laba Bersih</p>
                     <p class="text-xl font-black" style="color: {{ $netProfit >= 0 ? '#10b981' : '#f87171' }};">Rp {{ number_format($netProfit, 0, ',', '.') }}</p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #94a3b8;">Margin Keuntungan</p>
+                    <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color: #000000;">Margin Keuntungan</p>
                     <p class="text-xl font-black" style="color: #60a5fa;">{{ $totalRevenue > 0 ? number_format(($netProfit / $totalRevenue) * 100, 1) : '0' }}%</p>
                 </div>
             </div>
