@@ -1,7 +1,7 @@
 <div>
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Kelola <span class="text-gradient">Barang</span></h1>
+    <div class="flex items-center justify-center mb-8">
+        <div class="text-center">
+            <h1 class="text-2xl font-black" style="color: #000000;">Kelola <span class="text-gradient">Barang</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Manajemen inventaris & harga</p>
         </div>
         <button wire:click="openCreate"
@@ -50,7 +50,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3">
-                            <p class="font-semibold" style="color: #e2e8f0;">{{ $item->name }}</p>
+                            <p class="font-semibold" style="color: #000000;">{{ $item->name }}</p>
                             @if($item->description)
                             <p class="text-xs truncate max-w-xs" style="color: #475569;">{{ $item->description }}</p>
                             @endif
@@ -71,14 +71,6 @@
                                 <button wire:click="openEdit({{ $item->id }})"
                                         class="px-2.5 py-1.5 rounded-lg text-xs font-semibold"
                                         style="background: rgba(59,130,246,0.12); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2);">✏</button>
-                                <button wire:click="openStock({{ $item->id }}, 'in')"
-                                        class="px-2.5 py-1.5 rounded-lg text-xs font-semibold"
-                                        style="background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.2);"
-                                        title="Barang Masuk">↓ In</button>
-                                <button wire:click="openStock({{ $item->id }}, 'out')"
-                                        class="px-2.5 py-1.5 rounded-lg text-xs font-semibold"
-                                        style="background: rgba(234,179,8,0.12); color: #fde047; border: 1px solid rgba(234,179,8,0.2);"
-                                        title="Barang Keluar">↑ Out</button>
                                 <button wire:click="delete({{ $item->id }})"
                                         wire:confirm="Nonaktifkan barang ini?"
                                         class="px-2.5 py-1.5 rounded-lg text-xs font-semibold"

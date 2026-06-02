@@ -2,7 +2,7 @@
     {{-- Header --}}
     <div class="flex items-center justify-center mb-8">
         <div class="text-center">
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Dashboard <span class="text-gradient">Superadmin</span></h1>
+            <h1 class="text-2xl font-black" style="color: #000000;">Dashboard <span class="text-gradient">Superadmin</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">{{ now()->format('l, d F Y') }}</p>
         </div>
     </div>
@@ -127,7 +127,7 @@
         {{-- Recent Orders --}}
         <div class="card-dark p-5">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold" style="color: #e2e8f0;">🕐 Order Terbaru</h3>
+                <h3 class="text-sm font-bold" style="color: #000000;">🕐 Order Terbaru</h3>
                 <a href="{{ route('superadmin.service-history') }}" class="text-xs font-semibold hover:underline" style="color: #eab308;">Semua →</a>
             </div>
             <div class="space-y-3">
@@ -138,7 +138,7 @@
                         {{ strtoupper(substr($order->customer_name, 0, 1)) }}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold truncate" style="color: #e2e8f0;">{{ $order->customer_name }}</p>
+                        <p class="text-sm font-semibold truncate" style="color: #121213;">{{ $order->customer_name }}</p>
                         <p class="text-xs truncate" style="color: #475569;">{{ $order->vehicle_type }}</p>
                         <p class="text-xs mt-0.5" style="color: #334155;">{{ $order->created_at->diffForHumans() }}</p>
                     </div>
@@ -154,7 +154,7 @@
     </div>
 
     {{-- Quick Links --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-6">
         <a href="{{ route('superadmin.admins.index') }}"
            class="card-dark p-4 flex items-center gap-3 rounded-xl transition-all hover:border-yellow-400/40"
            style="text-decoration: none;">
@@ -173,9 +173,5 @@
             <span class="text-2xl">📊</span>
             <span class="text-sm font-semibold" style="color: #93c5fd;">Laporan</span>
         </a>
-        <div class="card-dark p-4 flex items-center gap-3 rounded-xl">
-            <span class="text-2xl">⚙</span>
-            <span class="text-sm font-semibold" style="color: #475569;">Pengaturan</span>
-        </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div>
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Kelola <span class="text-gradient">Admin</span></h1>
+            <h1 class="text-2xl font-black" style="color: #000000;">Kelola <span class="text-gradient">Admin</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Manajemen akun kasir dan manager</p>
         </div>
         <button wire:click="openCreate"
@@ -44,10 +44,10 @@
                                      style="background: linear-gradient(135deg, {{ $admin->role === 'manager' ? '#1d4ed8,#7c3aed' : '#059669,#10b981' }});">
                                     {{ strtoupper(substr($admin->name, 0, 1)) }}
                                 </div>
-                                <span class="font-semibold" style="color: #e2e8f0;">{{ $admin->name }}</span>
+                                <span class="font-semibold" style="color: #000000;">{{ $admin->name }}</span>
                             </div>
                         </td>
-                        <td class="px-5 py-3.5" style="color: #94a3b8;">{{ $admin->email }}</td>
+                        <td class="px-5 py-3.5" style="color: #000000;">{{ $admin->email }}</td>
                         <td class="px-5 py-3.5">
                             <span class="px-2.5 py-1 rounded-full text-xs font-bold"
                                   style="{{ $admin->role === 'manager' ? 'background:rgba(59,130,246,0.15);color:#93c5fd;' : 'background:rgba(16,185,129,0.15);color:#34d399;' }}">
@@ -72,12 +72,7 @@
                                         style="background: rgba(234,179,8,0.12); color: #fde047; border: 1px solid rgba(234,179,8,0.2);">
                                     {{ $admin->is_active ? '🔇 Nonaktif' : '✔ Aktifkan' }}
                                 </button>
-                                <button wire:click="delete({{ $admin->id }})"
-                                        wire:confirm="Yakin ingin menghapus admin ini?"
-                                        class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                        style="background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">
-                                    🗑 Hapus
-                                </button>
+                            
                             </div>
                         </td>
                     </tr>

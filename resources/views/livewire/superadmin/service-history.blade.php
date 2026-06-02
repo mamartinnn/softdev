@@ -1,7 +1,7 @@
 <div>
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Histori <span class="text-gradient">Servis</span></h1>
+    <div class="flex items-center justify-center mb-8">
+        <div class="text-center">
+            <h1 class="text-2xl font-black" style="color: #060606;">Histori <span class="text-gradient">Servis</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Semua catatan service order</p>
         </div>
     </div>
@@ -63,10 +63,10 @@
                     @endphp
                     <tr class="table-dark-row cursor-pointer" wire:click="viewDetail({{ $order->id }})"
                         style="border-bottom: 1px solid rgba(234,179,8,0.06);">
-                        <td class="px-4 py-3 font-mono text-xs" style="color: #93c5fd;">{{ $order->order_number }}</td>
-                        <td class="px-4 py-3 font-semibold" style="color: #e2e8f0;">{{ $order->customer_name }}</td>
-                        <td class="px-4 py-3" style="color: #94a3b8;">{{ $order->vehicle_type }}<br><span class="text-xs font-mono" style="color: #475569;">{{ $order->plate_number }}</span></td>
-                        <td class="px-4 py-3" style="color: #94a3b8;">{{ $order->user->name ?? '-' }}</td>
+                        <td class="px-4 py-3 font-mono text-xs" style="color: #0e0e0e;">{{ $order->order_number }}</td>
+                        <td class="px-4 py-3 font-semibold" style="color: #090909;">{{ $order->customer_name }}</td>
+                        <td class="px-4 py-3" style="color: #000000;">{{ $order->vehicle_type }}<br><span class="text-xs font-mono" style="color: #475569;">{{ $order->plate_number }}</span></td>
+                        <td class="px-4 py-3" style="color: #060606;">{{ $order->user->name ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span class="px-2 py-1 rounded-full text-xs font-semibold"
                                   style="background: {{ $sc['bg'] }}; color: {{ $sc['color'] }};">{{ $sc['label'] }}</span>

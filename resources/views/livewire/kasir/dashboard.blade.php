@@ -1,7 +1,7 @@
 <div>
     <div class="flex items-center justify-center mb-8">
         <div class="text-center">
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Dashboard <span class="text-gradient">Kasir</span></h1>
+            <h1 class="text-2xl font-black" style="color: #000000;">Dashboard <span class="text-gradient">Kasir</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Halo, {{ auth()->user()->name }}! {{ now()->format('l, d F Y') }}</p>
         </div>
     </div>
@@ -34,7 +34,7 @@
                 🔧
             </div>
             <div>
-                <p class="font-bold" style="color: #e2e8f0;">Buat Order Servis Baru</p>
+                <p class="font-bold" style="color: #000000;">Buat Order Servis Baru</p>
                 <p class="text-xs mt-1" style="color: #475569;">Catat kendaraan masuk & barang terpakai</p>
             </div>
             <a href="{{ route('kasir.orders.create') }}" class="w-full">
@@ -53,7 +53,7 @@
         {{-- Recent Orders --}}
         <div class="card-dark p-5 lg:col-span-2">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold" style="color: #e2e8f0;">🕐 Order Terakhir Kamu</h3>
+                <h3 class="text-sm font-bold" style="color: #000000;">🕐 Order Terakhir Kamu</h3>
                 <a href="{{ route('kasir.orders.index') }}" class="text-xs font-semibold hover:underline" style="color: #eab308;">Lihat semua →</a>
             </div>
             @php
@@ -71,7 +71,7 @@
                      style="border-bottom: 1px solid rgba(234,179,8,0.07);">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <p class="font-semibold text-sm" style="color: #e2e8f0;">{{ $order->customer_name }}</p>
+                            <p class="font-semibold text-sm" style="color: #000000;">{{ $order->customer_name }}</p>
                             <span class="text-xs px-2 py-0.5 rounded-full font-semibold"
                                   style="background: {{ $sc['bg'] }}; color: {{ $sc['color'] }};">{{ $sc['label'] }}</span>
                         </div>

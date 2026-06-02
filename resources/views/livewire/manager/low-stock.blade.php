@@ -1,6 +1,6 @@
 <div>
-    <div class="mb-8">
-        <h1 class="text-2xl font-black" style="color: #f1f5f9;">⚠ Stok <span class="text-gradient">Menipis</span></h1>
+    <div class="text-center mb-4">
+        <h1 class="text-2xl font-black" style="color: #000000;">Stok <span class="text-gradient">Menipis</span></h1>
         <p class="text-sm mt-1" style="color: #475569;">Barang dengan stok di bawah {{ $threshold }} unit</p>
     </div>
 
@@ -28,7 +28,7 @@
             <p class="text-2xl font-black" style="color: #fde047;">{{ $criticalCnt }}</p>
             <p class="text-xs mt-1" style="color: #475569;">Kritis (1–{{ $threshold - 1 }} unit)</p>
         </div>
-        <div class="card-stat p-5">
+        <div class="card-stat p-5" style="border-left: 3px solid #3e6eac;">
             <div class="w-10 h-10 rounded-xl icon-blue flex items-center justify-center text-lg mb-3">📦</div>
             <p class="text-2xl font-black" style="color: #60a5fa;">{{ $items->count() }}</p>
             <p class="text-xs mt-1" style="color: #475569;">Total Perlu Restock</p>
@@ -41,7 +41,7 @@
         @php
             $isOut    = $item->stock === 0;
             $pct      = $item->stock > 0 ? min(100, ($item->stock / $threshold) * 100) : 0;
-            $barColor = $isOut ? '#ef4444' : ($item->stock <= 2 ? '#f97316' : '#eab308');
+            $barColor = $isOut ? '#ef4444' : ($item->stock <= 2 ? '#f97316' : '#ea0808');
         @endphp
         <div class="card-dark p-5 rounded-2xl"
              style="border-color: {{ $isOut ? 'rgba(239,68,68,0.4)' : 'rgba(234,179,8,0.25)' }};">
@@ -56,7 +56,7 @@
                         <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-2"
                              style="background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.15);">📦</div>
                     @endif
-                    <p class="font-semibold text-sm truncate" style="color: #e2e8f0;">{{ $item->name }}</p>
+                    <p class="font-semibold text-sm truncate" style="color: #000000;">{{ $item->name }}</p>
                     <p class="text-xs" style="color: #475569;">SKU: {{ $item->sku ?? '-' }}</p>
                 </div>
                 <span class="px-2.5 py-1 rounded-full text-xs font-bold flex-shrink-0 ml-2"
@@ -77,8 +77,8 @@
 
             <button wire:click="openRestock({{ $item->id }})"
                     class="w-full py-2.5 rounded-xl text-sm font-bold transition-all"
-                    style="{{ $isOut ? 'background: rgba(239,68,68,0.18); color: #f87171; border: 1px solid rgba(239,68,68,0.35);' : 'background: linear-gradient(135deg,#d97706,#eab308); color: #0a0f1e;' }}">
-                {{ $isOut ? '🚨 Segera Restock' : '↓ Restock Sekarang' }}
+                    style="{{ $isOut ? 'background: rgba(239,68,68,0.18); color: #f87171; border: 1px solid rgba(239,68,68,0.35);' : 'background: rgba(239,68,68,0.18);border: 1px solid rgba(239,68,68,0.35); color: #f87171;' }}">
+                {{ $isOut ? '🚨 Segera Restock' : '🚨 Segera Restock' }}
             </button>
         </div>
         @endforeach

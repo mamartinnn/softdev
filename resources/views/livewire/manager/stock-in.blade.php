@@ -1,6 +1,6 @@
 <div>
     <div class="mb-8">
-        <h1 class="text-2xl font-black" style="color: #f1f5f9;">Barang <span class="text-gradient">Masuk</span></h1>
+        <h1 class="text-2xl font-black" style="color: #000000;">Barang <span class="text-gradient">Masuk</span></h1>
         <p class="text-sm mt-1" style="color: #475569;">Catat penerimaan stok barang baru</p>
     </div>
 
@@ -35,7 +35,7 @@
                                 onmouseover="this.style.background='rgba(234,179,8,0.06)'"
                                 onmouseout="this.style.background='transparent'">
                             <div>
-                                <p class="font-semibold" style="color: #e2e8f0;">{{ $r['name'] }}</p>
+                                <p class="font-semibold" style="color: #000000;">{{ $r['name'] }}</p>
                                 <p class="text-xs" style="color: #475569;">SKU: {{ $r['sku'] ?? '-' }} | Stok: {{ $r['stock'] }} {{ $r['unit'] }}</p>
                             </div>
                             <span class="text-xs font-bold" style="color: #34d399;">Rp {{ number_format($r['price'],0,',','.') }}</span>
@@ -91,7 +91,7 @@
         {{-- Riwayat --}}
         <div class="card-dark p-5 lg:col-span-3">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold" style="color: #e2e8f0;">🕐 Riwayat Barang Masuk</h3>
+                <h3 class="text-sm font-bold" style="color: #000000;">🕐 Riwayat Barang Masuk</h3>
                 <input wire:model.live.debounce="search" placeholder="🔍 Cari barang..."
                        class="px-3 py-1.5 text-xs rounded-xl"
                        style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.18); color: #e2e8f0; outline: none;" />
@@ -103,7 +103,7 @@
                     <div class="w-8 h-8 rounded-xl flex items-center justify-center text-sm font-black"
                          style="background: rgba(16,185,129,0.15); color: #34d399;">↓</div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold truncate" style="color: #e2e8f0;">{{ $tx->item->name ?? '-' }}</p>
+                        <p class="text-sm font-semibold truncate" style="color: #000000;">{{ $tx->item->name ?? '-' }}</p>
                         <p class="text-xs" style="color: #475569;">
                             {{ $tx->user->name ?? '-' }} · {{ $tx->created_at->diffForHumans() }}
                             @if($tx->note) · {{ $tx->note }} @endif

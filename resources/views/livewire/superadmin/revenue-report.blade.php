@@ -1,7 +1,7 @@
 <div>
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Laporan <span class="text-gradient">Pendapatan</span></h1>
+            <h1 class="text-2xl font-black" style="color: #000000;">Laporan <span class="text-gradient">Pendapatan</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Ringkasan keuangan per bulan</p>
         </div>
         <div class="flex items-center gap-3">
@@ -49,7 +49,7 @@
     {{-- Table --}}
     <div class="card-dark overflow-hidden">
         <div class="px-5 py-4" style="border-bottom: 1px solid rgba(234,179,8,0.12);">
-            <h3 class="text-sm font-bold" style="color: #e2e8f0;">Rincian Order Bulan Ini</h3>
+            <h3 class="text-sm font-bold" style="color: #000000;">Rincian Order Bulan Ini</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
@@ -67,8 +67,8 @@
                 <tbody>
                     @forelse($orders as $order)
                     <tr class="table-dark-row" style="border-bottom: 1px solid rgba(234,179,8,0.05);">
-                        <td class="px-5 py-3 font-mono text-xs" style="color: #93c5fd;">{{ $order->order_number }}</td>
-                        <td class="px-5 py-3 font-semibold" style="color: #e2e8f0;">{{ $order->customer_name }}</td>
+                        <td class="px-5 py-3 font-mono text-xs" style="color: #000000;">{{ $order->order_number }}</td>
+                        <td class="px-5 py-3 font-semibold" style="color: #000000;">{{ $order->customer_name }}</td>
                         <td class="px-5 py-3" style="color: #94a3b8;">{{ $order->user->name ?? '-' }}</td>
                         <td class="px-5 py-3 text-right" style="color: #60a5fa;">Rp {{ number_format($order->service_fee,0,',','.') }}</td>
                         <td class="px-5 py-3 text-right" style="color: #fde047;">Rp {{ number_format($order->total_items_cost,0,',','.') }}</td>

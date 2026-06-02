@@ -1,7 +1,7 @@
 <div>
     <div class="flex items-center justify-center mb-8">
         <div class="text-center">
-            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Laporan <span class="text-gradient">Pengeluaran</span></h1>
+            <h1 class="text-2xl font-black" style="color: #000000;">Laporan <span class="text-gradient">Pengeluaran</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Catatan pembelian barang dari supplier</p>
         </div>
     </div>
