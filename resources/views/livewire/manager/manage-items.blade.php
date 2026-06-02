@@ -31,7 +31,8 @@
                         <th class="text-left px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Gambar</th>
                         <th class="text-left px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Nama Barang</th>
                         <th class="text-left px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">SKU</th>
-                        <th class="text-right px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Harga</th>
+                        <th class="text-right px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Harga Beli</th>
+                        <th class="text-right px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Harga Jual</th>
                         <th class="text-center px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Stok</th>
                         <th class="text-left px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Satuan</th>
                         <th class="text-center px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Status</th>
@@ -57,6 +58,9 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 font-mono text-xs" style="color: #64748b;">{{ $item->sku ?? '-' }}</td>
+                        <td class="px-4 py-3 text-right font-semibold" style="color: #f87171;">
+                            Rp {{ number_format($item->cost_price, 0, ',', '.') }}
+                        </td>
                         <td class="px-4 py-3 text-right font-bold" style="color: #34d399;">
                             Rp {{ number_format($item->price, 0, ',', '.') }}
                         </td>
@@ -95,7 +99,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="px-5 py-12 text-center" style="color: #334155;">Belum ada barang terdaftar.</td>
+                        <td colspan="9" class="px-5 py-12 text-center" style="color: #334155;">Belum ada barang terdaftar.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -152,12 +156,21 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Harga Jual *</label>
-                    <input wire:model="price" type="number" min="0" placeholder="25000"
-                           class="w-full px-3 py-2.5 rounded-xl text-sm"
-                           style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
-                    @error('price') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Harga Beli *</label>
+                        <input wire:model="costPrice" type="number" min="0" placeholder="20000"
+                               class="w-full px-3 py-2.5 rounded-xl text-sm"
+                               style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                        @error('costPrice') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Harga Jual *</label>
+                        <input wire:model="price" type="number" min="0" placeholder="25000"
+                               class="w-full px-3 py-2.5 rounded-xl text-sm"
+                               style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                        @error('price') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                    </div>
                 </div>
                 <div>
                     <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Deskripsi</label>

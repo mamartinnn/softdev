@@ -16,6 +16,7 @@ class ManageItems extends Component
     public string  $name        = '';
     public string  $sku         = '';
     public float   $price       = 0;
+    public float   $costPrice   = 0;
     public int     $stock       = 0;
     public string  $unit        = 'pcs';
     public string  $description = '';
@@ -42,6 +43,7 @@ class ManageItems extends Component
             'name'        => 'required|string|max:150',
             'sku'         => $skuRule,
             'price'       => 'required|numeric|min:0',
+            'costPrice'   => 'required|numeric|min:0',
             'unit'        => 'required|string',
             'description' => 'nullable|string',
             'image'       => $this->editingId ? 'nullable|image|max:2048' : 'nullable|image|max:2048',
@@ -50,7 +52,7 @@ class ManageItems extends Component
 
     public function openCreate(): void
     {
-        $this->reset(['name', 'sku', 'price', 'stock', 'unit', 'description', 'image', 'editingId', 'existingImage']);
+        $this->reset(['name', 'sku', 'price', 'costPrice', 'stock', 'unit', 'description', 'image', 'editingId', 'existingImage']);
         $this->unit      = 'pcs';
         $this->showItemModal = true;
     }
@@ -67,6 +69,7 @@ class ManageItems extends Component
         $this->name           = $item->name;
         $this->sku            = $item->sku ?? '';
         $this->price          = $item->price;
+        $this->costPrice      = $item->cost_price;
         $this->unit           = $item->unit;
         $this->description    = $item->description ?? '';
         $this->existingImage  = $item->image;
@@ -81,6 +84,7 @@ class ManageItems extends Component
             'name'        => $this->name,
             'sku'         => $this->sku ?: null,
             'price'       => $this->price,
+            'cost_price'  => $this->costPrice,
             'unit'        => $this->unit,
             'description' => $this->description,
         ];

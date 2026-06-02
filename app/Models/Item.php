@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     protected $fillable = [
-        'name', 'sku', 'price', 'stock', 'unit', 'image', 'description', 'is_active'
+        'name', 'sku', 'price', 'cost_price', 'stock', 'unit', 'image', 'description', 'is_active'
     ];
 
     protected function casts(): array
     {
         return [
             'price' => 'decimal:2',
+            'cost_price' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }
