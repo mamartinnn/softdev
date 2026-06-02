@@ -39,119 +39,121 @@
     </div>
 
     {{-- Tabel Order --}}
-    <flux:table>
-        <flux:columns>
-            <flux:column>No. Order</flux:column>
-            <flux:column>Pelanggan</flux:column>
-            <flux:column>Kendaraan</flux:column>
-            <flux:column>Status</flux:column>
-            <flux:column>Total</flux:column>
-            <flux:column>Tanggal</flux:column>
-            <flux:column>Aksi</flux:column>
-        </flux:columns>
-        <flux:rows>
-            @php
-                $statusConfig = [
-                    'open'        => ['label' => 'Antrian',    'variant' => 'yellow'],
-                    'in_progress' => ['label' => 'Dikerjakan', 'variant' => 'blue'],
-                    'done'        => ['label' => 'Selesai',    'variant' => 'green'],
-                    'cancelled'   => ['label' => 'Batal',      'variant' => 'red'],
-                ];
-            @endphp
-            @forelse($orders as $order)
-            <flux:row>
-                <flux:cell class="font-mono text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                    {{ $order->order_number }}
-                </flux:cell>
-                <flux:cell>{{ $order->customer_name }}</flux:cell>
-                <flux:cell>
-                    <p class="font-medium text-sm">{{ $order->vehicle_type }}</p>
-                    <p class="text-xs text-zinc-400">{{ $order->plate_number }}</p>
-                </flux:cell>
-                <flux:cell>
-                    @php $sc = $statusConfig[$order->status] ?? ['label' => $order->status, 'variant' => 'zinc']; @endphp
-                    <flux:badge variant="{{ $sc['variant'] }}" size="sm">{{ $sc['label'] }}</flux:badge>
-                </flux:cell>
-                <flux:cell class="font-semibold text-green-700 dark:text-green-400">
-                    Rp {{ number_format($order->grand_total, 0, ',', '.') }}
-                </flux:cell>
-                <flux:cell class="text-xs text-zinc-400">
-                    {{ $order->created_at->format('d/m/Y H:i') }}
-                </flux:cell>
-                <flux:cell>
-                    <div class="flex gap-1">
-                        <flux:button wire:click="viewDetail({{ $order->id }})" size="sm" icon="eye" variant="ghost" />
-                        @if($order->status === 'done')
-                        <a href="{{ route('kasir.orders.receipt', $order->id) }}" target="_blank">
-                            <flux:button size="sm" icon="printer" variant="ghost" title="Cetak Struk" />
-                        </a>
-                        @endif
-                    </div>
-                </flux:cell>
-            </flux:row>
-            @empty
-            <flux:row>
-                <flux:cell colspan="7" class="text-center text-zinc-400 py-10">
-                    Belum ada order. <a href="{{ route('kasir.orders.create') }}" class="text-orange-500 hover:underline">Buat order baru →</a>
-                </flux:cell>
-            </flux:row>
-            @endforelse
-        </flux:rows>
-    </flux:table>
-    <div class="mt-4">{{ $orders->links() }}</div>
+    <div class="card-dark rounded-xl overflow-hidden">
+        <table class="w-full text-sm">
+            <thead style="background: rgba(15,23,42,0.6); border-bottom: 2px solid rgba(234,179,8,0.2);">
+                <tr>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">No. Order</th>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">Pelanggan</th>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">Kendaraan</th>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">Status</th>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">Total</th>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">Tanggal</th>
+                    <th class="px-6 py-4 text-left font-semibold" style="color: #eab308;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $statusConfig = [
+                        'open'        => ['label' => 'Antrian',    'color' => '#fde047', 'bg' => 'rgba(234,179,8,0.15)'],
+                        'in_progress' => ['label' => 'Dikerjakan', 'color' => '#60a5fa', 'bg' => 'rgba(59,130,246,0.15)'],
+                        'done'        => ['label' => 'Selesai',    'color' => '#34d399', 'bg' => 'rgba(16,185,129,0.15)'],
+                        'cancelled'   => ['label' => 'Batal',      'color' => '#f87171', 'bg' => 'rgba(239,68,68,0.15)'],
+                    ];
+                @endphp
+                @forelse($orders as $order)
+                <tr class="table-dark-row">
+                    <td class="px-6 py-4 font-mono text-xs font-semibold" style="color: #e2e8f0;">{{ $order->order_number }}</td>
+                    <td class="px-6 py-4" style="color: #e2e8f0;">{{ $order->customer_name }}</td>
+                    <td class="px-6 py-4">
+                        <p class="font-medium" style="color: #e2e8f0;">{{ $order->vehicle_type }}</p>
+                        <p class="text-xs" style="color: #94a3b8;">{{ $order->plate_number }}</p>
+                    </td>
+                    <td class="px-6 py-4">
+                        @php $sc = $statusConfig[$order->status] ?? ['label' => $order->status, 'color' => '#94a3b8', 'bg' => 'rgba(148,163,184,0.15)']; @endphp
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background: {{ $sc['bg'] }}; color: {{ $sc['color'] }};">{{ $sc['label'] }}</span>
+                    </td>
+                    <td class="px-6 py-4 font-semibold" style="color: #34d399;">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</td>
+                    <td class="px-6 py-4 text-xs" style="color: #94a3b8;">{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            <button wire:click="viewDetail({{ $order->id }})" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2);">👁️</button>
+                            @if($order->status === 'done')
+                            <a href="{{ route('kasir.orders.receipt', $order->id) }}" target="_blank">
+                                <button class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2);">🖨️</button>
+                            </a>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="7" class="px-6 py-10 text-center" style="color: #94a3b8;">
+                        Belum ada order. <a href="{{ route('kasir.orders.create') }}" class="underline font-semibold" style="color: #60a5fa;">Buat order baru →</a>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-6">{{ $orders->links() }}</div>
 
     {{-- Modal Detail --}}
-    <flux:modal wire:model="showDetail" class="max-w-xl w-full">
-        @if($viewingOrder)
-        <div class="flex items-center justify-between mb-4">
-            <flux:heading>{{ $viewingOrder->order_number }}</flux:heading>
-            @php $sc = $statusConfig[$viewingOrder->status] ?? ['label' => $viewingOrder->status, 'variant' => 'zinc']; @endphp
-            <flux:badge variant="{{ $sc['variant'] }}">{{ $sc['label'] }}</flux:badge>
-        </div>
+    @if($showDetail && $viewingOrder)
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-6 max-w-xl w-full mx-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold" style="color: #1f2937;">{{ $viewingOrder->order_number }}</h2>
+                    @php $sc = $statusConfig[$viewingOrder->status] ?? ['label' => $viewingOrder->status, 'color' => '#94a3b8', 'bg' => 'rgba(148,163,184,0.15)']; @endphp
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background: {{ $sc['bg'] }}; color: {{ $sc['color'] }};">{{ $sc['label'] }}</span>
+                </div>
 
-        <div class="grid grid-cols-2 gap-3 text-sm mb-4">
-            <div><p class="text-zinc-500 text-xs">Pelanggan</p><p class="font-semibold">{{ $viewingOrder->customer_name }}</p></div>
-            <div><p class="text-zinc-500 text-xs">Kendaraan</p><p class="font-semibold">{{ $viewingOrder->vehicle_type }}</p></div>
-            <div><p class="text-zinc-500 text-xs">No. Plat</p><p class="font-semibold">{{ $viewingOrder->plate_number }}</p></div>
-            <div><p class="text-zinc-500 text-xs">Tanggal</p><p class="font-semibold">{{ $viewingOrder->created_at->format('d/m/Y H:i') }}</p></div>
-            @if($viewingOrder->complaint)
-            <div class="col-span-2">
-                <p class="text-zinc-500 text-xs">Keluhan</p>
-                <p class="font-medium">{{ $viewingOrder->complaint }}</p>
+                <div class="grid grid-cols-2 gap-3 text-sm mb-4">
+                    <div><p class="text-xs" style="color: #94a3b8;">Pelanggan</p><p class="font-semibold">{{ $viewingOrder->customer_name }}</p></div>
+                    <div><p class="text-xs" style="color: #94a3b8;">Kendaraan</p><p class="font-semibold">{{ $viewingOrder->vehicle_type }}</p></div>
+                    <div><p class="text-xs" style="color: #94a3b8;">No. Plat</p><p class="font-semibold">{{ $viewingOrder->plate_number }}</p></div>
+                    <div><p class="text-xs" style="color: #94a3b8;">Tanggal</p><p class="font-semibold">{{ $viewingOrder->created_at->format('d/m/Y H:i') }}</p></div>
+                    @if($viewingOrder->complaint)
+                    <div class="col-span-2">
+                        <p class="text-xs" style="color: #94a3b8;">Keluhan</p>
+                        <p class="font-medium">{{ $viewingOrder->complaint }}</p>
+                    </div>
+                    @endif
+                </div>
+
+                <div style="border-top: 1px solid #e5e7eb; padding-top: 0.75rem; margin-top: 0.75rem;"></div>
+                <p class="text-sm font-semibold mb-2" style="color: #1f2937;">Barang Digunakan:</p>
+                <div class="space-y-1 mb-3">
+                    @forelse($viewingOrder->items as $item)
+                    <div class="flex justify-between text-sm py-1" style="border-bottom: 1px solid #e5e7eb;">
+                        <span>{{ $item->item_name }} × {{ $item->quantity }}</span>
+                        <span class="font-medium">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span>
+                    </div>
+                    @empty
+                    <p class="text-sm" style="color: #94a3b8;">Tidak ada barang.</p>
+                    @endforelse
+                </div>
+
+                <div class="rounded-lg p-3 space-y-1.5 text-sm" style="background: rgba(15,23,42,0.3);">
+                    <div class="flex justify-between"><span style="color: #94a3b8;">Subtotal Barang</span><span style="color: #e2e8f0;">Rp {{ number_format($viewingOrder->total_items_cost, 0, ',', '.') }}</span></div>
+                    <div class="flex justify-between"><span style="color: #94a3b8;">Biaya Jasa</span><span style="color: #e2e8f0;">Rp {{ number_format($viewingOrder->service_fee, 0, ',', '.') }}</span></div>
+                    <div style="border-top: 1px solid rgba(234,179,8,0.1); margin-top: 0.5rem; padding-top: 0.5rem;"></div>
+                    <div class="flex justify-between font-bold text-base">
+                        <span style="color: #e2e8f0;">Grand Total</span>
+                        <span style="color: #34d399;">Rp {{ number_format($viewingOrder->grand_total, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-5">
+                    @if($viewingOrder->status === 'done')
+                    <a href="{{ route('kasir.orders.receipt', $viewingOrder->id) }}" target="_blank">
+                        <button class="px-4 py-2 rounded-lg text-sm font-semibold transition-all" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2);">🖨️ Cetak Struk</button>
+                    </a>
+                    @endif
+                    <button wire:click="closeDetail" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all" style="background: rgba(102,126,234,0.15); color: #667eea; border: 1px solid rgba(102,126,234,0.2);">Tutup</button>
+                </div>
             </div>
-            @endif
-        </div>
-
-        <flux:separator class="my-3" />
-        <p class="text-sm font-semibold mb-2">Barang Digunakan:</p>
-        <div class="space-y-1 mb-3">
-            @forelse($viewingOrder->items as $item)
-            <div class="flex justify-between text-sm border-b border-zinc-100 dark:border-zinc-700 py-1">
-                <span>{{ $item->item_name }} × {{ $item->quantity }}</span>
-                <span class="font-medium">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</span>
-            </div>
-            @empty <p class="text-zinc-400 text-sm">Tidak ada barang.</p>
-            @endforelse
-        </div>
-
-        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-3 space-y-1.5 text-sm">
-            <div class="flex justify-between"><span class="text-zinc-500">Subtotal Barang</span><span>Rp {{ number_format($viewingOrder->total_items_cost, 0, ',', '.') }}</span></div>
-            <div class="flex justify-between"><span class="text-zinc-500">Biaya Jasa</span><span>Rp {{ number_format($viewingOrder->service_fee, 0, ',', '.') }}</span></div>
-            <flux:separator />
-            <div class="flex justify-between font-bold text-base">
-                <span>Grand Total</span>
-                <span class="text-green-600">Rp {{ number_format($viewingOrder->grand_total, 0, ',', '.') }}</span>
-            </div>
-        </div>
-
-        <div class="flex justify-end gap-3 mt-5">
-            @if($viewingOrder->status === 'done')
-            <a href="{{ route('kasir.orders.receipt', $viewingOrder->id) }}" target="_blank">
-                <flux:button icon="printer" variant="ghost" size="sm">Cetak Struk</flux:button>
-            </a>
-            @endif
-            <flux:button wire:click="closeDetail" variant="primary">Tutup</flux:button>
         </div>
         @endif
-    </flux:modal>
+    @endif
 </div>

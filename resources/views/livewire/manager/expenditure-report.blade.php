@@ -8,17 +8,17 @@
 
     {{-- Filter Bar --}}
     <div class="flex flex-wrap gap-3 mb-6">
-        <flux:select wire:model.live="filterMonth" class="w-40">
+        <select wire:model.live="filterMonth" class="px-4 py-2.5 rounded-lg text-sm font-medium transition-all" style="background: #ffffff; border: 1px solid #e5e7eb; color: #1f2937; cursor: pointer;">
             @foreach($months as $val => $label)
                 <option value="{{ $val }}">{{ $label }}</option>
             @endforeach
-        </flux:select>
-        <flux:select wire:model.live="filterYear" class="w-40">
+        </select>
+        <select wire:model.live="filterYear" class="px-4 py-2.5 rounded-lg text-sm font-medium transition-all" style="background: #ffffff; border: 1px solid #e5e7eb; color: #1f2937; cursor: pointer;">
             @foreach($years as $year)
                 <option value="{{ $year }}">{{ $year }}</option>
             @endforeach
-        </flux:select>
-        <flux:input wire:model.live.debounce="search" placeholder="Cari nama / SKU barang..." icon="magnifying-glass" class="flex-1 min-w-60" />
+        </select>
+        <input wire:model.live.debounce="search" type="text" placeholder="Cari nama / SKU barang..." class="flex-1 min-w-60 px-4 py-2.5 rounded-lg text-sm" style="background: #ffffff; border: 1px solid #e5e7eb; color: #1f2937; outline: none;" />
     </div>
 
     {{-- Summary Cards --}}
