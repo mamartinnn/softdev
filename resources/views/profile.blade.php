@@ -23,12 +23,6 @@
             <livewire:profile.update-profile-information-form />
         </div>
 
-        {{-- Change Password Card --}}
-        <div class="card-dark p-8 rounded-2xl mb-8">
-            <h3 class="text-lg font-bold mb-6" style="color: #fde047;">🔐 Ubah Password</h3>
-            <livewire:profile.update-password-form />
-        </div>
-
         {{-- Danger Zone --}}
         <div class="card-dark p-8 rounded-2xl border-red-500 border-opacity-40"
              style="border-color: rgba(239,68,68,0.4);">

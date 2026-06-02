@@ -14,23 +14,26 @@ class LowStock extends Component
     public ?int   $restockId   = null;
     public string $restockName = '';
     public int    $restockQty  = 10;
+    public float  $restockPrice = 0;
     public string $restockNote = '';
 
     protected function rules(): array
     {
         return [
-            'restockQty'  => 'required|integer|min:1',
-            'restockNote' => 'nullable|string|max:255',
+            'restockQty'   => 'required|integer|min:1',
+            'restockPrice' => 'required|numeric|min:0',
+            'restockNote'  => 'nullable|string|max:255',
         ];
     }
 
     public function openRestock(Item $item): void
     {
-        $this->restockId   = $item->id;
-        $this->restockName = $item->name;
-        $this->restockQty  = 10;
-        $this->restockNote = '';
-        $this->showModal   = true;
+        $this->restockId    = $item->id;
+        $this->restockName  = $item->name;
+        $this->restockQty   = 10;
+        $this->restockPrice = $item->price;
+        $this->restockNote  = '';
+        $this->showModal    = true;
     }
 
     public function restock(): void
@@ -43,7 +46,7 @@ class LowStock extends Component
             'item_id'        => $item->id,
             'type'           => 'in',
             'quantity'       => $this->restockQty,
-            'price_per_unit' => $item->price,
+            'price_per_unit' => $this->restockPrice,
             'note'           => $this->restockNote ?: 'Restock — stok menipis',
             'user_id'        => auth()->id(),
         ]);

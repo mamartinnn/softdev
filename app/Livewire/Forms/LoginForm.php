@@ -38,6 +38,18 @@ class LoginForm extends Form
             ]);
         }
 
+        // Check if user is active
+        $user = Auth::user();
+        if ($user && !$user->is_active) {
+            Auth::logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+            
+            throw ValidationException::withMessages([
+                'form.email' => 'Akun Anda telah dinonaktifkan. Hubungi administrator untuk informasi lebih lanjut.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

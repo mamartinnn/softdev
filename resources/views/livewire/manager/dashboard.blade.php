@@ -1,13 +1,9 @@
 <div>
-{{-- Header Section --}}
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
-        <div class="mb-4 md:mb-0">
-            <h1 class="text-3xl md:text-4xl font-bold mb-1" style="color: #1e293b;">
-                📊 Dashboard Manager
-            </h1>
-            <p class="text-sm font-medium" style="color: #64748b;">
-                📅 {{ now()->translatedFormat('l, d F Y') }}
-            </p>
+    {{-- Header Section --}}
+    <div class="flex items-center justify-center mb-8">
+        <div class="text-center">
+            <h1 class="text-2xl font-black" style="color: #f1f5f9;">Dashboard <span class="text-gradient">Manager</span></h1>
+            <p class="text-sm mt-1" style="color: #475569;">📅 {{ now()->translatedFormat('l, d F Y') }}</p>
         </div>
     </div>
 

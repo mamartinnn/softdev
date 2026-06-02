@@ -1,6 +1,6 @@
 <div>
-    <div class="flex items-center justify-between mb-8">
-        <div>
+    <div class="flex items-center justify-center mb-8">
+        <div class="text-center">
             <h1 class="text-2xl font-black" style="color: #f1f5f9;">Dashboard <span class="text-gradient">Kasir</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">Halo, {{ auth()->user()->name }}! {{ now()->format('l, d F Y') }}</p>
         </div>

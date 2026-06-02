@@ -555,6 +555,7 @@
             ['icon' => '📦', 'label' => 'Kelola Barang','route' => 'manager.items.index','match' => 'manager.items*'],
             ['icon' => '↓',  'label' => 'Barang Masuk', 'route' => 'manager.stock.in',   'match' => 'manager.stock.in*'],
             ['icon' => '⚠',  'label' => 'Stok Menipis', 'route' => 'manager.stock.low',  'match' => 'manager.stock.low'],
+            ['icon' => '💰', 'label' => 'Laporan Pengeluaran', 'route' => 'manager.expenditure-report', 'match' => 'manager.expenditure-report'],
         ]; @endphp
         @foreach($mgRoutes as $item)
             @php $active = request()->routeIs($item['match']); @endphp

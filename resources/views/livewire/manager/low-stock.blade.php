@@ -106,6 +106,13 @@
                     @error('restockQty') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
                 </div>
                 <div>
+                    <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Harga Beli per Unit *</label>
+                    <input wire:model="restockPrice" type="number" step="0.01" min="0" placeholder="0"
+                           class="w-full px-3 py-2.5 rounded-xl text-sm"
+                           style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                    @error('restockPrice') <p class="text-xs mt-1" style="color: #f87171;">{{ $message }}</p> @enderror
+                </div>
+                <div>
                     <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Keterangan (opsional)</label>
                     <input wire:model="restockNote" type="text" placeholder="Beli dari Toko Abadi"
                            class="w-full px-3 py-2.5 rounded-xl text-sm"

@@ -1,17 +1,20 @@
 <div>
     {{-- Header --}}
-    <div class="flex items-center justify-between mb-8">
-        <div>
+    <div class="flex items-center justify-center mb-8">
+        <div class="text-center">
             <h1 class="text-2xl font-black" style="color: #f1f5f9;">Dashboard <span class="text-gradient">Superadmin</span></h1>
             <p class="text-sm mt-1" style="color: #475569;">{{ now()->format('l, d F Y') }}</p>
         </div>
-        @if($lowStockCount > 0)
+    </div>
+
+    @if($lowStockCount > 0)
+    <div class="flex items-center justify-center mb-8">
         <div class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
              style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3);">
             ⚠ {{ $lowStockCount }} stok menipis
         </div>
-        @endif
     </div>
+    @endif
 
     {{-- Stat Cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

@@ -9,6 +9,7 @@ use App\Livewire\Manager\Dashboard         as ManagerDashboard;
 use App\Livewire\Manager\ManageItems;
 use App\Livewire\Manager\StockIn;
 use App\Livewire\Manager\LowStock;
+use App\Livewire\Manager\ExpenditureReport;
 use App\Livewire\Kasir\Dashboard           as KasirDashboard;
 use App\Livewire\Kasir\CreateServiceOrder;
 use App\Livewire\Kasir\OrderList;
@@ -64,10 +65,11 @@ Route::middleware(['auth', 'role:manager'])
     ->prefix('manager')
     ->name('manager.')
     ->group(function () {
-        Route::get('/dashboard', ManagerDashboard::class)->name('dashboard');
-        Route::get('/items',     ManageItems::class)->name('items.index');
-        Route::get('/stock/in',  StockIn::class)->name('stock.in');
-        Route::get('/stock/low', LowStock::class)->name('stock.low');
+        Route::get('/dashboard',         ManagerDashboard::class)->name('dashboard');
+        Route::get('/items',             ManageItems::class)->name('items.index');
+        Route::get('/stock/in',          StockIn::class)->name('stock.in');
+        Route::get('/stock/low',         LowStock::class)->name('stock.low');
+        Route::get('/expenditure-report', ExpenditureReport::class)->name('expenditure-report');
     });
 
 // ============================================================
