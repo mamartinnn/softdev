@@ -23,26 +23,36 @@
     </div>
 
     {{-- Summary Cards --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
         <div class="card-stat p-5">
             <div class="w-10 h-10 rounded-xl icon-green flex items-center justify-center text-lg mb-3">💰</div>
-            <p class="text-xl font-black" style="color: #34d399;">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+            <p class="text-lg font-black" style="color: #34d399;">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
             <p class="text-xs mt-1" style="color: #475569;">Total Pendapatan</p>
         </div>
         <div class="card-stat p-5">
             <div class="w-10 h-10 rounded-xl icon-blue flex items-center justify-center text-lg mb-3">🔧</div>
-            <p class="text-xl font-black" style="color: #60a5fa;">Rp {{ number_format($totalServiceFee, 0, ',', '.') }}</p>
+            <p class="text-lg font-black" style="color: #60a5fa;">Rp {{ number_format($totalServiceFee, 0, ',', '.') }}</p>
             <p class="text-xs mt-1" style="color: #475569;">Biaya Jasa</p>
         </div>
         <div class="card-stat p-5">
             <div class="w-10 h-10 rounded-xl icon-yellow flex items-center justify-center text-lg mb-3">📦</div>
-            <p class="text-xl font-black" style="color: #fde047;">Rp {{ number_format($totalItemsCost, 0, ',', '.') }}</p>
+            <p class="text-lg font-black" style="color: #fde047;">Rp {{ number_format($totalItemsCost, 0, ',', '.') }}</p>
             <p class="text-xs mt-1" style="color: #475569;">Biaya Barang</p>
         </div>
         <div class="card-stat p-5">
+            <div class="w-10 h-10 rounded-xl icon-red flex items-center justify-center text-lg mb-3">📉</div>
+            <p class="text-lg font-black" style="color: #f87171;">Rp {{ number_format($totalExpenses, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Total Pengeluaran</p>
+        </div>
+        <div class="card-stat p-5">
+            <div class="w-10 h-10 rounded-xl icon-cyan flex items-center justify-center text-lg mb-3">📈</div>
+            <p class="text-lg font-black" style="color: {{ $netProfit >= 0 ? '#10b981' : '#f87171' }};">Rp {{ number_format($netProfit, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Laba Bersih</p>
+        </div>
+        <div class="card-stat p-5">
             <div class="w-10 h-10 rounded-xl icon-purple flex items-center justify-center text-lg mb-3">📋</div>
-            <p class="text-3xl font-black" style="color: #c4b5fd;">{{ $totalOrders }}</p>
-            <p class="text-xs mt-1" style="color: #475569;">Total Order Selesai</p>
+            <p class="text-2xl font-black" style="color: #c4b5fd;">{{ $totalOrders }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">Total Order</p>
         </div>
     </div>
 

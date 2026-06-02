@@ -7,11 +7,11 @@
         </div>
     </div>
 
-    @if($lowStockCount > 0)
+    @if($monthlyExpensesCount > 0)
     <div class="flex items-center justify-center mb-8">
         <div class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
-             style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3);">
-            ⚠ {{ $lowStockCount }} stok menipis
+             style="background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3);">
+            📊 {{ $monthlyExpensesCount }} pengeluaran bulan ini
         </div>
     </div>
     @endif
@@ -52,14 +52,14 @@
             <p class="text-xs mt-1" style="color: #475569;">dari {{ $totalAdmins }} total admin</p>
         </div>
 
-        {{-- Stok --}}
-        <div class="card-stat p-5" style="{{ $lowStockCount > 0 ? 'border-color: rgba(239,68,68,0.35);' : '' }}">
+        {{-- Pengeluaran Bulan Ini --}}
+        <div class="card-stat p-5" style="{{ $monthlyExpensesCount > 0 ? 'border-color: rgba(59,130,246,0.35);' : '' }}">
             <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 rounded-xl {{ $lowStockCount > 0 ? 'icon-red' : 'icon-yellow' }} flex items-center justify-center text-lg">📦</div>
-                <p class="text-xs font-semibold uppercase tracking-wide" style="color: #475569;">Stok Menipis</p>
+                <div class="w-10 h-10 rounded-xl {{ $monthlyExpensesCount > 0 ? 'icon-blue' : 'icon-gray' }} flex items-center justify-center text-lg">📊</div>
+                <p class="text-xs font-semibold uppercase tracking-wide" style="color: #475569;">Pengeluaran Bulan Ini</p>
             </div>
-            <p class="text-2xl font-black" style="color: {{ $lowStockCount > 0 ? '#f87171' : '#fde047' }};">{{ $lowStockCount }}</p>
-            <p class="text-xs mt-1" style="color: #475569;">barang perlu restock</p>
+            <p class="text-2xl font-black" style="color: {{ $monthlyExpensesCount > 0 ? '#60a5fa' : '#9ca3af' }};">{{ $monthlyExpensesCount }}</p>
+            <p class="text-xs mt-1" style="color: #475569;">transaksi pembelian</p>
         </div>
     </div>
 

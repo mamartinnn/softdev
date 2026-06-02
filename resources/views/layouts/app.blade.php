@@ -622,7 +622,48 @@
         <span class="font-black text-gray-900 text-base">🔧 MyUOS</span>
     </div>
 
-    <div class="p-6">
+    <div class="p-6 relative min-h-screen">
+        {{-- Garage decoration background on the right side --}}
+        <div class="hidden lg:flex absolute top-0 right-0 pointer-events-none opacity-5 h-full items-center">
+            <svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Garage building -->
+                <rect x="100" y="150" width="400" height="300" fill="#667eea" stroke="#1f2937" stroke-width="3"/>
+                
+                <!-- Roof -->
+                <polygon points="100,150 300,50 500,150" fill="#764ba2" stroke="#1f2937" stroke-width="3"/>
+                
+                <!-- Left door -->
+                <rect x="120" y="200" width="150" height="220" fill="#d4a574" stroke="#1f2937" stroke-width="2"/>
+                <circle cx="140" cy="310" r="8" fill="#1f2937"/>
+                <line x1="140" y1="200" x2="140" y2="420" stroke="#1f2937" stroke-width="1" opacity="0.3"/>
+                <line x1="195" y1="200" x2="195" y2="420" stroke="#1f2937" stroke-width="1" opacity="0.3"/>
+                
+                <!-- Right door -->
+                <rect x="330" y="200" width="150" height="220" fill="#d4a574" stroke="#1f2937" stroke-width="2"/>
+                <circle cx="350" cy="310" r="8" fill="#1f2937"/>
+                <line x1="350" y1="200" x2="350" y2="420" stroke="#1f2937" stroke-width="1" opacity="0.3"/>
+                <line x1="405" y1="200" x2="405" y2="420" stroke="#1f2937" stroke-width="1" opacity="0.3"/>
+                
+                <!-- Windows -->
+                <rect x="145" y="100" width="50" height="40" fill="#93c5fd" stroke="#1f2937" stroke-width="2"/>
+                <line x1="170" y1="100" x2="170" y2="140" stroke="#1f2937" stroke-width="1"/>
+                <line x1="145" y1="120" x2="195" y2="120" stroke="#1f2937" stroke-width="1"/>
+                
+                <rect x="405" y="100" width="50" height="40" fill="#93c5fd" stroke="#1f2937" stroke-width="2"/>
+                <line x1="430" y1="100" x2="430" y2="140" stroke="#1f2937" stroke-width="1"/>
+                <line x1="405" y1="120" x2="455" y2="120" stroke="#1f2937" stroke-width="1"/>
+                
+                <!-- Tools on ground -->
+                <circle cx="150" cy="480" r="8" fill="#eab308"/>
+                <circle cx="200" cy="490" r="6" fill="#eab308"/>
+                <circle cx="400" cy="485" r="7" fill="#eab308"/>
+                <circle cx="450" cy="495" r="5" fill="#eab308"/>
+                
+                <!-- Ground -->
+                <rect x="50" y="450" width="500" height="100" fill="#6b7280" opacity="0.3"/>
+            </svg>
+        </div>
+
         {{ $slot }}
     </div>
 </flux:main>

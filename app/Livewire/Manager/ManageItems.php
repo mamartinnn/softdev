@@ -57,6 +57,12 @@ class ManageItems extends Component
 
     public function openEdit(Item $item): void
     {
+        // Prevent editing of deactivated items
+        if (!$item->is_active) {
+            session()->flash('error', 'Barang yang sudah dinonaktifkan tidak bisa diedit atau diaktifkan kembali.');
+            return;
+        }
+
         $this->editingId      = $item->id;
         $this->name           = $item->name;
         $this->sku            = $item->sku ?? '';
@@ -99,6 +105,12 @@ class ManageItems extends Component
 
     public function openStock(Item $item, string $type = 'in'): void
     {
+        // Prevent stock changes for deactivated items
+        if (!$item->is_active) {
+            session()->flash('error', 'Tidak bisa mengubah stok barang yang sudah dinonaktifkan.');
+            return;
+        }
+
         $this->stockItemId = $item->id;
         $this->stockType   = $type;
         $this->stockQty    = 1;

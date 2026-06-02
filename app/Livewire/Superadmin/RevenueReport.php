@@ -3,6 +3,7 @@
 namespace App\Livewire\Superadmin;
 
 use App\Models\ServiceOrder;
+use App\Models\StockTransaction;
 use Livewire\Component;
 
 class RevenueReport extends Component
@@ -30,8 +31,18 @@ class RevenueReport extends Component
         $totalItemsCost   = $orders->sum('total_items_cost');
         $totalOrders      = $orders->count();
 
+        // Calculate total monthly expenses (stock purchases)
+        $totalExpenses = StockTransaction::where('type', 'in')
+            ->whereYear('created_at', $this->filterYear)
+            ->whereMonth('created_at', $this->filterMonth)
+            ->selectRaw('SUM(quantity * price_per_unit) as total')
+            ->value('total') ?? 0;
+
+        // Calculate net profit (laba bersih)
+        $netProfit = $totalRevenue - $totalExpenses;
+
         return view('livewire.superadmin.revenue-report', compact(
-            'orders', 'totalRevenue', 'totalServiceFee', 'totalItemsCost', 'totalOrders'
+            'orders', 'totalRevenue', 'totalServiceFee', 'totalItemsCost', 'totalOrders', 'totalExpenses', 'netProfit'
         ))->layout('layouts.app');
     }
 }

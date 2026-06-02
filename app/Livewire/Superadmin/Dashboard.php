@@ -41,8 +41,11 @@ class Dashboard extends Component
         $totalAdmins  = User::whereIn('role', ['kasir', 'manager'])->count();
         $activeAdmins = User::whereIn('role', ['kasir', 'manager'])->where('is_active', true)->count();
 
-        // Low stock alert
-        $lowStockCount = Item::active()->where('stock', '<', 5)->count();
+        // Monthly expenditure count (pengeluaran bulan ini)
+        $monthlyExpensesCount = \App\Models\StockTransaction::where('type', 'in')
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->count();
 
         // Chart data: last 6 months
         $chartLabels = [];
@@ -65,7 +68,7 @@ class Dashboard extends Component
         return view('livewire.superadmin.dashboard', compact(
             'revenueThisMonth', 'revenueLastMonth', 'revenueGrowth',
             'ordersThisMonth', 'ordersToday', 'totalAdmins', 'activeAdmins',
-            'lowStockCount', 'chartLabels', 'chartData', 'recentOrders'
+            'monthlyExpensesCount', 'chartLabels', 'chartData', 'recentOrders'
         ))->layout('layouts.app');
     }
 }
