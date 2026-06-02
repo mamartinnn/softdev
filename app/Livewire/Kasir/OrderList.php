@@ -4,6 +4,7 @@
 namespace App\Livewire\Kasir;
 
 use App\Models\ServiceOrder;
+use App\Models\StockTransaction;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -40,12 +41,17 @@ class OrderList extends Component
             return;
         }
 
-        // Restore stok barang
+        // Restore stok barang dan hapus transaksi stok
         foreach ($order->items as $serviceOrderItem) {
             $item = $serviceOrderItem->item;
             if ($item) {
                 $item->increment('stock', $serviceOrderItem->quantity);
             }
+            // Hapus stock transaction yang terkait dengan order ini
+            StockTransaction::where('item_id', $serviceOrderItem->item_id)
+                ->where('type', 'out')
+                ->where('note', 'like', "%Servis order #{$order->order_number}%")
+                ->delete();
         }
 
         $order->delete();

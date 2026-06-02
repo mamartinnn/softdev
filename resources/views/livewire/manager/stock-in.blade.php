@@ -109,9 +109,15 @@
                             @if($tx->note) · {{ $tx->note }} @endif
                         </p>
                     </div>
-                    <div class="text-right">
-                        <span class="text-sm font-black" style="color: #34d399;">+{{ $tx->quantity }}</span>
-                        <p class="text-xs" style="color: #475569;">Rp {{ number_format($tx->price_per_unit,0,',','.') }}/unit</p>
+                    <div class="text-right flex items-center gap-2">
+                        <div>
+                            <span class="text-sm font-black" style="color: #34d399;">+{{ $tx->quantity }}</span>
+                            <p class="text-xs" style="color: #475569;">Rp {{ number_format($tx->price_per_unit,0,',','.') }}/unit</p>
+                        </div>
+                        <button wire:click="deleteTransaction({{ $tx->id }})" 
+                                wire:confirm="Hapus transaksi ini? Stok akan berkurang."
+                                class="px-2 py-1.5 rounded-lg text-xs font-semibold"
+                                style="background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">🗑</button>
                     </div>
                 </div>
                 @empty

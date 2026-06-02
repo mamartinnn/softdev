@@ -120,6 +120,12 @@
                               style="{{ $tx->type === 'in' ? 'background: rgba(16,185,129,0.15); color: #10b981;' : 'background: rgba(239,68,68,0.15); color: #ef4444;' }}">
                             {{ $tx->type === 'in' ? '+' : '-' }}{{ $tx->quantity }} unit
                         </span>
+                        @if($tx->type === 'in')
+                        <button wire:click="deleteTransaction({{ $tx->id }})" 
+                                wire:confirm="Hapus transaksi ini? Stok akan berkurang."
+                                class="px-2 py-1.5 rounded-lg text-xs font-semibold"
+                                style="background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">🗑</button>
+                        @endif
                     </div>
                 </div>
                 @empty
