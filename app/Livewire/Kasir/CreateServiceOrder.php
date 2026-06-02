@@ -103,7 +103,7 @@ class CreateServiceOrder extends Component
     #[Computed]
     public function grandTotal(): float
     {
-        return $this->totalItemsCost + $this->serviceFee;
+        return $this->totalItemsCost() + $this->serviceFee;
     }
 
     public function saveOrder(): void

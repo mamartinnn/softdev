@@ -41,8 +41,11 @@ class OrderList extends Component
         }
 
         // Restore stok barang
-        foreach ($order->items as $item) {
-            $item->increment('stock', $item->quantity);
+        foreach ($order->items as $serviceOrderItem) {
+            $item = $serviceOrderItem->item;
+            if ($item) {
+                $item->increment('stock', $serviceOrderItem->quantity);
+            }
         }
 
         $order->delete();
