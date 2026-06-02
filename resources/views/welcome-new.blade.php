@@ -67,7 +67,7 @@
     <nav class="fixed top-0 w-full z-50" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-purple-600 to-purple-800 flex items-center justify-center text-white font-black">🔧</div>
+                <img src="/images/logo.png" alt="Logo" class="w-10 h-10 rounded-lg object-cover" />
                 <span class="text-xl font-black text-gray-900">MyUOS</span>
             </div>
             <div class="flex items-center gap-4">
@@ -79,9 +79,6 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="px-4 py-2 rounded-lg font-semibold text-sm" style="color: #667eea;">Masuk</a>
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-lg font-semibold text-sm btn-brand-primary">Daftar</a>
-                    @endif
                 @endauth
             </div>
         </div>
@@ -105,9 +102,6 @@
                 @else
                     <a href="{{ route('login') }}" class="px-8 py-3 rounded-lg font-bold text-base btn-brand-primary inline-block">
                         Masuk Sekarang
-                    </a>
-                    <a href="{{ route('register') }}" class="px-8 py-3 rounded-lg font-bold text-base btn-brand-secondary inline-block">
-                        Coba Gratis
                     </a>
                 @endauth
             </div>
@@ -166,32 +160,12 @@
         </div>
     </section>
 
-    {{-- CTA Section --}}
-    <section class="py-20 px-4">
-        <div class="max-w-4xl mx-auto hero-gradient rounded-2xl p-12 text-center">
-            <h2 class="text-3xl md:text-4xl font-black mb-6" style="color: #1f2937;">
-                Siap untuk Meningkatkan Efisiensi?
-            </h2>
-            <p class="text-lg mb-8" style="color: #6b7280;">
-                Mulai gunakan MyUOS hari ini dan rasakan perbedaannya.
-            </p>
-            @auth
-                <a href="{{ route('manager.dashboard') }}" class="px-8 py-3 rounded-lg font-bold text-base btn-brand-primary inline-block">
-                    Buka Dashboard →
-                </a>
-            @else
-                <a href="{{ route('register') }}" class="px-8 py-3 rounded-lg font-bold text-base btn-brand-primary inline-block">
-                    Mulai Gratis Sekarang
-                </a>
-            @endauth
-        </div>
-    </section>
+    
 
     {{-- Footer --}}
     <footer class="py-12 px-4 border-t" style="border-color: #e5e7eb;">
         <div class="max-w-6xl mx-auto text-center" style="color: #6b7280;">
             <p class="mb-2">&copy; 2026 MyUOS - Sistem Manajemen Bengkel Servis</p>
-            <p class="text-sm">Developed with <span style="color: #dc2626;">❤️</span> for workshop management</p>
         </div>
     </footer>
 </body>

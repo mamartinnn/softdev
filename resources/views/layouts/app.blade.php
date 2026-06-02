@@ -552,7 +552,7 @@
     <div class="flex items-center justify-between px-4 py-5 gap-2" style="border-bottom: 1px solid #e5e7eb; min-height: 80px;">
         {{-- Logo/Brand --}}
         <div class="flex items-center gap-3 flex-1 min-w-0">
-            <div class="sidebar-brand w-10 h-10 flex-shrink-0 flex items-center justify-center text-white text-lg font-black rounded-xl shadow-lg">🔧</div>
+           <img src="/images/logo.png" alt="Logo" class="w-10 h-10 rounded-lg object-cover" />  
             <div class="hidden sm:block min-w-0">
                 <p class="font-black text-gray-900 text-base tracking-wide truncate">MyUOS</p>
                 <p class="text-xs font-medium truncate" style="color: #667eea;">{{ ucfirst(auth()->user()->role) }}</p>

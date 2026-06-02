@@ -22,9 +22,7 @@
             <!-- Logo Aplikasi -->
             <div>
                 <a href="/" wire:navigate class="flex flex-col items-center">
-                    <div class="w-16 h-16 flex items-center justify-center text-white text-3xl font-black rounded-2xl shadow-lg mb-2" style="background: linear-gradient(135deg, #667eea, #764ba2);">
-                        🔧
-                    </div>
+                 <img src="/images/logo.png" alt="Logo" class="w-12 h-12 rounded-lg object-cover" />
                     <span class="text-3xl font-black tracking-wide" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                         MyUOS
                     </span>
