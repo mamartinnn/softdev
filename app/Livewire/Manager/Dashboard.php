@@ -14,6 +14,35 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
+    public function deleteTransaction(int $transactionId): void
+    {
+        $transaction = StockTransaction::find($transactionId);
+        if (!$transaction) {
+            session()->flash('error', 'Transaksi tidak ditemukan.');
+            return;
+        }
+
+        // Hanya bisa delete transaksi masuk (type='in')
+        if ($transaction->type !== 'in') {
+            session()->flash('error', 'Hanya transaksi masuk yang bisa dihapus.');
+            return;
+        }
+
+        $item = $transaction->item;
+        if (!$item) {
+            session()->flash('error', 'Item tidak ditemukan.');
+            return;
+        }
+
+        // Reverse stock
+        $item->decrement('stock', $transaction->quantity);
+
+        // Delete transaction
+        $transaction->delete();
+
+        session()->flash('success', 'Transaksi berhasil dihapus dan stok telah dikurangi.');
+    }
+
     public function render()
     {
         $totalItems    = Item::active()->count();
