@@ -34,6 +34,12 @@
                                style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
                     </div>
                     <div>
+                        <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Nomor Telepon</label>
+                        <input wire:model="phoneNumber" type="text" placeholder="081234567890"
+                               class="w-full px-3 py-2.5 rounded-xl text-sm"
+                               style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
+                    </div>
+                    <div>
                         <label class="text-xs font-semibold mb-1.5 block" style="color: #94a3b8;">Nomor Plat *</label>
                         <input wire:model="plateNumber" type="text" placeholder="B 1234 ABC"
                                class="w-full px-3 py-2.5 rounded-xl text-sm"
@@ -120,7 +126,7 @@
                 <div class="space-y-3">
                     <div class="flex justify-between text-sm" style="border-bottom: 1px solid rgba(234,179,8,0.1); padding-bottom: 0.75rem;">
                         <span style="color: #94a3b8;">Total Barang</span>
-                        <span class="font-medium" style="color: #e2e8f0;">Rp {{ number_format($this->totalItemsCost, 0, ',', '.') }}</span>
+                        <span class="font-medium" style="color: #e2e8f0;">Rp {{ number_format($this->totalItemsCost(), 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between items-center text-sm">
                         <span style="color: #94a3b8;">Biaya Jasa</span>
@@ -135,7 +141,7 @@
                     <div style="border-top: 1px solid rgba(234,179,8,0.15); padding-top: 0.75rem; margin-top: 0.75rem;"></div>
                     <div class="flex justify-between font-black text-lg">
                         <span style="color: #000000;">TOTAL</span>
-                        <span style="color: #34d399;">Rp {{ number_format($this->grandTotal, 0, ',', '.') }}</span>
+                        <span style="color: #34d399;">Rp {{ number_format($this->grandTotal(), 0, ',', '.') }}</span>
                     </div>
                 </div>
                 <button wire:click="saveOrder"

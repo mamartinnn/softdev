@@ -6,18 +6,20 @@ use App\Models\Item;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderItem;
 use App\Models\StockTransaction;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class CreateServiceOrder extends Component
 {
     // Data pelanggan
     public string $customerName  = '';
+    public string $phoneNumber   = '';
     public string $vehicleType   = '';
     public string $plateNumber   = '';
     public string $complaint     = '';
 
     // Biaya jasa
-    public float  $serviceFee    = 0;
+    public float  $serviceFee    = 0.0;
 
     // Daftar barang yang dipakai
     public array  $selectedItems = [];  // [{item_id, item_name, price, qty, subtotal}]
@@ -31,6 +33,7 @@ class CreateServiceOrder extends Component
 
     protected $rules = [
         'customerName' => 'required|string|max:100',
+        'phoneNumber'  => 'nullable|string|max:20',
         'vehicleType'  => 'required|string|max:100',
         'plateNumber'  => 'required|string|max:20',
         'serviceFee'   => 'required|numeric|min:0',
@@ -91,12 +94,14 @@ class CreateServiceOrder extends Component
         }
     }
 
-    public function getTotalItemsCostProperty(): float
+    #[Computed]
+    public function totalItemsCost(): float
     {
         return array_sum(array_column($this->selectedItems, 'subtotal'));
     }
 
-    public function getGrandTotalProperty(): float
+    #[Computed]
+    public function grandTotal(): float
     {
         return $this->totalItemsCost + $this->serviceFee;
     }
@@ -123,6 +128,7 @@ class CreateServiceOrder extends Component
         $order = ServiceOrder::create([
             'order_number'      => ServiceOrder::generateOrderNumber(),
             'customer_name'     => $this->customerName,
+            'phone_number'      => $this->phoneNumber,
             'vehicle_type'      => $this->vehicleType,
             'plate_number'      => $this->plateNumber,
             'complaint'         => $this->complaint,

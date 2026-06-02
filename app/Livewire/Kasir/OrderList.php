@@ -32,6 +32,23 @@ class OrderList extends Component
         $this->viewingId  = null;
     }
 
+    public function deleteOrder(int $id): void
+    {
+        $order = ServiceOrder::find($id);
+        if (!$order || $order->user_id !== auth()->id()) {
+            session()->flash('error', 'Order tidak ditemukan atau Anda tidak memiliki akses.');
+            return;
+        }
+
+        // Restore stok barang
+        foreach ($order->items as $item) {
+            $item->increment('stock', $item->quantity);
+        }
+
+        $order->delete();
+        session()->flash('success', 'Order berhasil dihapus dan stok telah dikembalikan.');
+    }
+
     public function render()
     {
         // Kasir hanya melihat order miliknya

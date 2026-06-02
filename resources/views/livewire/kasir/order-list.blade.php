@@ -83,6 +83,8 @@
                                 <button class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2);">🖨️</button>
                             </a>
                             @endif
+                            <button wire:click="deleteOrder({{ $order->id }})" wire:confirm="Hapus order ini? Stok barang akan dikembalikan."
+                                    class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all" style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">🗑️</button>
                         </div>
                     </td>
                 </tr>
@@ -150,6 +152,8 @@
                         <button class="px-4 py-2 rounded-lg text-sm font-semibold transition-all" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2);">🖨️ Cetak Struk</button>
                     </a>
                     @endif
+                    <button wire:click="deleteOrder({{ $viewingOrder->id }})" wire:confirm="Hapus order ini? Stok barang akan dikembalikan."
+                            class="px-4 py-2 rounded-lg text-sm font-semibold transition-all" style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">🗑️ Hapus</button>
                     <button wire:click="closeDetail" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all" style="background: rgba(102,126,234,0.15); color: #667eea; border: 1px solid rgba(102,126,234,0.2);">Tutup</button>
                 </div>
             </div>

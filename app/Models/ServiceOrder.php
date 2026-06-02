@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceOrder extends Model
 {
     protected $fillable = [
-        'order_number', 'customer_name', 'vehicle_type', 'plate_number',
+        'order_number', 'customer_name', 'phone_number', 'vehicle_type', 'plate_number',
         'complaint', 'status', 'service_fee', 'total_items_cost',
         'grand_total', 'notes', 'user_id', 'completed_at'
     ];

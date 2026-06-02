@@ -159,6 +159,12 @@ class ManageItems extends Component
         session()->flash('success', 'Barang berhasil dinonaktifkan.');
     }
 
+    public function reactivate(Item $item): void
+    {
+        $item->update(['is_active' => true]);
+        session()->flash('success', 'Barang berhasil diaktifkan kembali.');
+    }
+
     public function render()
     {
         $items = Item::when($this->search, fn($q) =>

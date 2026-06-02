@@ -34,6 +34,7 @@
                         <th class="text-right px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Harga</th>
                         <th class="text-center px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Stok</th>
                         <th class="text-left px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Satuan</th>
+                        <th class="text-center px-4 py-3.5 text-xs font-bold uppercase" style="color: #eab308;">Status</th>
                         <th class="px-4 py-3.5"></th>
                     </tr>
                 </thead>
@@ -66,8 +67,16 @@
                             </span>
                         </td>
                         <td class="px-4 py-3" style="color: #94a3b8;">{{ $item->unit }}</td>
+                        <td class="px-4 py-3 text-center">
+                            @if($item->is_active)
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold" style="background:rgba(16,185,129,0.18);color:#34d399;">✓ Aktif</span>
+                            @else
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold" style="background:rgba(239,68,68,0.18);color:#f87171;">✕ Nonaktif</span>
+                            @endif
+                        </td>
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-1.5 justify-end">
+                                @if($item->is_active)
                                 <button wire:click="openEdit({{ $item->id }})"
                                         class="px-2.5 py-1.5 rounded-lg text-xs font-semibold"
                                         style="background: rgba(59,130,246,0.12); color: #93c5fd; border: 1px solid rgba(59,130,246,0.2);">✏</button>
@@ -75,12 +84,18 @@
                                         wire:confirm="Nonaktifkan barang ini?"
                                         class="px-2.5 py-1.5 rounded-lg text-xs font-semibold"
                                         style="background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2);">🗑</button>
+                                @else
+                                <button wire:click="reactivate({{ $item->id }})"
+                                        wire:confirm="Aktifkan kembali barang ini?"
+                                        class="px-2.5 py-1.5 rounded-lg text-xs font-semibold w-full"
+                                        style="background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.2);">↻ Aktifkan</button>
+                                @endif
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-5 py-12 text-center" style="color: #334155;">Belum ada barang terdaftar.</td>
+                        <td colspan="8" class="px-5 py-12 text-center" style="color: #334155;">Belum ada barang terdaftar.</td>
                     </tr>
                     @endforelse
                 </tbody>
