@@ -3,12 +3,7 @@
         <h1 class="text-2xl font-black" style="color: #000000;">Stok <span class="text-gradient">Menipis</span></h1>
         <p class="text-sm mt-1" style="color: #475569;">Barang dengan stok di bawah {{ $threshold }} unit</p>
     </div>
-
-    @if(session('success'))
-    <div class="alert-success mb-5 flex items-center gap-2">✅ {{ session('success') }}</div>
-    @endif
-
-    @if($items->isEmpty())
+@if($items->isEmpty())
     <div class="card-dark p-10 text-center">
         <p class="text-5xl mb-4">🎉</p>
         <p class="font-bold text-lg" style="color: #34d399;">Semua stok dalam kondisi aman!</p>

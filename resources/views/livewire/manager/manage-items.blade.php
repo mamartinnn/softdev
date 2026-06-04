@@ -1,4 +1,4 @@
-    <div>
+<div>
         <div class="mb-8">
             <div class="text-center">
                 <h1 class="text-2xl font-black" style="color: #000000;">Kelola <span class="text-gradient">Barang</span></h1>
@@ -10,14 +10,7 @@
             </button>
         </div>
 
-        @if(session('success'))
-        <div class="alert-success mb-4">✅ {{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-        <div class="alert-danger mb-4">❌ {{ session('error') }}</div>
-        @endif
-
-        <div class="mb-5">
+<div class="mb-5">
             <input wire:model.live.debounce="search" placeholder="🔍 Cari nama / SKU barang..."
                 class="px-4 py-2.5 text-sm rounded-xl w-full max-w-sm"
                 style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />

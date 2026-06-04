@@ -42,7 +42,7 @@
         </div>
         <div class="card-stat p-5">
             <div class="w-10 h-10 rounded-xl icon-purple flex items-center justify-center text-lg mb-3">📋</div>
-            <p class="text-3xl font-black" style="color: #c4b5fd;">{{ $transactions->count() }}</p>
+            <p class="text-xl font-black" style="color: #c4b5fd;">{{ $transactions->total() }}</p>
             <p class="text-xs mt-1" style="color: #475569;">Total Transaksi</p>
         </div>
     </div>

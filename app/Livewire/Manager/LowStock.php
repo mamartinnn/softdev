@@ -53,7 +53,7 @@ class LowStock extends Component
 
         $item->increment('stock', $this->restockQty);
 
-        session()->flash('success', "Stok \"{$item->name}\" berhasil ditambah {$this->restockQty} unit.");
+        $this->dispatch('notify', type: 'success', message: "Stok \"{$item->name}\" berhasil ditambah {$this->restockQty} unit.");
         $this->showModal = false;
     }
 

@@ -61,7 +61,7 @@ class ManageItems extends Component
     {
         // Prevent editing of deactivated items
         if (!$item->is_active) {
-            session()->flash('error', 'Barang yang sudah dinonaktifkan tidak bisa diedit atau diaktifkan kembali.');
+            $this->dispatch('notify', type: 'error', message: 'Barang yang sudah dinonaktifkan tidak bisa diedit atau diaktifkan kembali.');
             return;
         }
 
@@ -97,11 +97,11 @@ class ManageItems extends Component
 
         if ($this->editingId) {
             Item::findOrFail($this->editingId)->update($data);
-            session()->flash('success', 'Barang berhasil diperbarui.');
+            $this->dispatch('notify', type: 'success', message: 'Barang berhasil diperbarui.');
         } else {
             $data['stock'] = 0; // stok awal 0, tambah via transaksi masuk
             Item::create($data);
-            session()->flash('success', 'Barang baru berhasil ditambahkan.');
+            $this->dispatch('notify', type: 'success', message: 'Barang baru berhasil ditambahkan.');
         }
 
         $this->showItemModal = false;
@@ -111,7 +111,7 @@ class ManageItems extends Component
     {
         // Prevent stock changes for deactivated items
         if (!$item->is_active) {
-            session()->flash('error', 'Tidak bisa mengubah stok barang yang sudah dinonaktifkan.');
+            $this->dispatch('notify', type: 'error', message: 'Tidak bisa mengubah stok barang yang sudah dinonaktifkan.');
             return;
         }
 
@@ -153,20 +153,20 @@ class ManageItems extends Component
             $item->decrement('stock', $this->stockQty);
         }
 
-        session()->flash('success', 'Stok berhasil diperbarui.');
+        $this->dispatch('notify', type: 'success', message: 'Stok berhasil diperbarui.');
         $this->showStockModal = false;
     }
 
     public function delete(Item $item): void
     {
         $item->update(['is_active' => false]);
-        session()->flash('success', 'Barang berhasil dinonaktifkan.');
+        $this->dispatch('notify', type: 'success', message: 'Barang berhasil dinonaktifkan.');
     }
 
     public function reactivate(Item $item): void
     {
         $item->update(['is_active' => true]);
-        session()->flash('success', 'Barang berhasil diaktifkan kembali.');
+        $this->dispatch('notify', type: 'success', message: 'Barang berhasil diaktifkan kembali.');
     }
 
     public function render()

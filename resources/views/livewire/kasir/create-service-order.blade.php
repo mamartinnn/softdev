@@ -7,18 +7,8 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="alert-success mb-4">✅ {{ session('success') }}
-            @if($savedOrderId)
-                — <a href="{{ route('kasir.orders.receipt', $savedOrderId) }}" target="_blank" class="underline font-semibold">Cetak Struk</a>
-            @endif
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert-danger mb-4">❌ {{ session('error') }}</div>
-    @endif
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {{-- Kolom Kiri: Data & Barang --}}
         <div class="lg:col-span-2 space-y-6">

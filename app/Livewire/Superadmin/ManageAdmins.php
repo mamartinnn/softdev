@@ -66,10 +66,10 @@ class ManageAdmins extends Component
 
         if ($this->editingId) {
             User::findOrFail($this->editingId)->update($data);
-            session()->flash('success', 'Data admin berhasil diperbarui.');
+            $this->dispatch('notify', type: 'success', message: 'Data admin berhasil diperbarui.');
         } else {
             User::create($data);
-            session()->flash('success', 'Admin baru berhasil ditambahkan.');
+            $this->dispatch('notify', type: 'success', message: 'Admin baru berhasil ditambahkan.');
         }
 
         $this->showModal = false;
@@ -84,11 +84,11 @@ class ManageAdmins extends Component
     public function delete(User $user): void
     {
         if ($user->role === 'superadmin') {
-            session()->flash('error', 'Superadmin tidak bisa dihapus.');
+            $this->dispatch('notify', type: 'error', message: 'Superadmin tidak bisa dihapus.');
             return;
         }
         $user->delete();
-        session()->flash('success', 'Admin berhasil dihapus.');
+        $this->dispatch('notify', type: 'success', message: 'Admin berhasil dihapus.');
     }
 
     public function render()

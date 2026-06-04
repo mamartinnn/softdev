@@ -18,19 +18,19 @@ class Dashboard extends Component
     {
         $transaction = StockTransaction::find($transactionId);
         if (!$transaction) {
-            session()->flash('error', 'Transaksi tidak ditemukan.');
+            $this->dispatch('notify', type: 'error', message: 'Transaksi tidak ditemukan.');
             return;
         }
 
         // Hanya bisa delete transaksi masuk (type='in')
         if ($transaction->type !== 'in') {
-            session()->flash('error', 'Hanya transaksi masuk yang bisa dihapus.');
+            $this->dispatch('notify', type: 'error', message: 'Hanya transaksi masuk yang bisa dihapus.');
             return;
         }
 
         $item = $transaction->item;
         if (!$item) {
-            session()->flash('error', 'Item tidak ditemukan.');
+            $this->dispatch('notify', type: 'error', message: 'Item tidak ditemukan.');
             return;
         }
 
@@ -40,7 +40,7 @@ class Dashboard extends Component
         // Delete transaction
         $transaction->delete();
 
-        session()->flash('success', 'Transaksi berhasil dihapus dan stok telah dikurangi.');
+        $this->dispatch('notify', type: 'success', message: 'Transaksi berhasil dihapus dan stok telah dikurangi.');
     }
 
     public function render()

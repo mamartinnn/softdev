@@ -111,7 +111,7 @@ class CreateServiceOrder extends Component
         $this->validate();
 
         if (empty($this->selectedItems) && $this->serviceFee <= 0) {
-            session()->flash('error', 'Tambahkan minimal satu barang atau isi biaya jasa.');
+            $this->dispatch('notify', type: 'error', message: 'Tambahkan minimal satu barang atau isi biaya jasa.');
             return;
         }
 
@@ -119,7 +119,7 @@ class CreateServiceOrder extends Component
         foreach ($this->selectedItems as $si) {
             $item = Item::find($si['item_id']);
             if ($item->stock < $si['qty']) {
-                session()->flash('error', "Stok {$item->name} tidak cukup! Tersedia: {$item->stock} {$item->unit}.");
+                $this->dispatch('notify', type: 'error', message: "Stok {$item->name} tidak cukup! Tersedia: {$item->stock} {$item->unit}.");
                 return;
             }
         }
@@ -167,8 +167,17 @@ class CreateServiceOrder extends Component
         }
 
         $this->savedOrderId = $order->id;
-        session()->flash('success', 'Order berhasil disimpan!');
+        $this->dispatch('notify', type: 'success', message: 'Order berhasil disimpan!');
     }
+
+        // Method ini akan otomatis berjalan setiap kali input serviceFee berubah
+    public function updatedServiceFee($value)
+    {
+        // Jika user menghapus input sampai habis (string kosong atau null)
+        if ($value === '' || $value === null) {
+            $this->serviceFee = 0;
+        }
+}
 
     public function render()
     {

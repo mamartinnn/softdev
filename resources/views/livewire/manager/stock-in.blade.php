@@ -3,12 +3,7 @@
         <h1 class="text-2xl font-black" style="color: #000000;">Barang <span class="text-gradient">Masuk</span></h1>
         <p class="text-sm mt-1" style="color: #475569;">Catat penerimaan stok barang baru</p>
     </div>
-
-    @if(session('success'))
-    <div class="alert-success mb-5">✅ {{ session('success') }}</div>
-    @endif
-
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {{-- Form --}}
         <div class="card-dark p-6 lg:col-span-2">
             <h3 class="text-sm font-bold mb-5" style="color: #fde047;">📥 Form Barang Masuk</h3>

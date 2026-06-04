@@ -1,5 +1,4 @@
 <div>
-    
     {{-- Header --}}
     <div class="flex items-center justify-center mb-8">
         <div class="text-center">

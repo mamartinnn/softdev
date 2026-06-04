@@ -31,8 +31,12 @@
         body {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
+            height: 100vh;
             color: #1f2937;
             font-family: 'Figtree', sans-serif;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
         }
 
         /* ===== SIDEBAR STYLES ===== */
@@ -40,8 +44,14 @@
             background: #ffffff !important;
             border-right: 1px solid #e5e7eb !important;
             transition: all 0.3s ease;
+            width: 260px !important;
             min-width: 260px !important;
-            width: 100% !important;
+            max-width: 260px !important;
+            flex-shrink: 0 !important;
+            height: 100vh !important;
+            overflow-y: auto !important;
+            position: sticky !important;
+            top: 0 !important;
         }
         
         .sidebar-custom > div:first-child {
@@ -546,7 +556,7 @@
         }
     </style>
 </head>
-<body class="h-full">
+<body class="h-full flex">
 
 <flux:sidebar stashable class="sidebar-custom" x-data="{ open: true }" @stash="open = false" @unstash="open = true">
     <div class="flex items-center justify-between px-4 py-5 gap-2" style="border-bottom: 1px solid #e5e7eb; min-height: 80px;">
@@ -656,7 +666,7 @@
     </div>
 </flux:sidebar>
 
-<flux:main>
+<flux:main class="flex-1 overflow-y-auto min-w-0">
     {{-- Mobile header --}}
     <div class="flex items-center justify-between gap-2 px-4 py-3 lg:hidden" style="border-bottom: 1px solid #e5e7eb; background: #ffffff; min-height: 60px;">
         <flux:sidebar.toggle icon="bars-3" class="flex-shrink-0" style="color: #667eea;" />
@@ -711,6 +721,133 @@
         {{ $slot }}
     </div>
 </flux:main>
+
+
+{{-- ===== TOAST NOTIFICATION SYSTEM ===== --}}
+<div
+    id="toast-container"
+    class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 pointer-events-none"
+    style="max-width: 380px; width: calc(100vw - 2.5rem);"
+>
+    @foreach([
+        ['success', session('success'), '#10b981', '#d1fae5', '#065f46', '✅'],
+        ['error',   session('error'),   '#ef4444', '#fee2e2', '#7f1d1d', '❌'],
+        ['warning', session('warning'), '#f59e0b', '#fef3c7', '#78350f', '⚠️'],
+        ['info',    session('info'),    '#3b82f6', '#dbeafe', '#1e3a8a', 'ℹ️'],
+        ['success', session('greeting'),'#10b981', '#d1fae5', '#065f46', '👋'],
+    ] as [$type, $msg, $color, $bg, $text, $icon])
+        @if($msg)
+        <div
+            class="toast-item pointer-events-auto"
+            data-type="{{ $type }}"
+            role="alert"
+            style="
+                background: {{ $bg }};
+                border: 1.5px solid {{ $color }};
+                border-left: 5px solid {{ $color }};
+                border-radius: 12px;
+                padding: 14px 16px;
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+                animation: toastSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+                position: relative;
+                overflow: hidden;
+            "
+        >
+            <span style="font-size:1.2rem; flex-shrink:0; margin-top:1px;">{{ $icon }}</span>
+            <div style="flex:1; min-width:0;">
+                <p style="margin:0; font-size:0.875rem; font-weight:600; color:{{ $text }}; word-wrap:break-word;">{{ $msg }}</p>
+            </div>
+            <button
+                onclick="this.closest('.toast-item').style.animation='toastSlideOut 0.25s ease forwards'; setTimeout(()=>this.closest('.toast-item').remove(),250);"
+                style="flex-shrink:0; background:none; border:none; cursor:pointer; color:{{ $color }}; font-size:1.1rem; line-height:1; padding:0; margin-top:1px; opacity:0.7;"
+                aria-label="Tutup"
+            >&times;</button>
+            <div style="
+                position:absolute; bottom:0; left:0;
+                height:3px; background:{{ $color }}; opacity:0.4;
+                animation: toastProgress 4s linear forwards;
+            "></div>
+        </div>
+        @endif
+    @endforeach
+</div>
+
+<style>
+@keyframes toastSlideIn {
+    from { opacity:0; transform:translateX(110%) scale(0.9); }
+    to   { opacity:1; transform:translateX(0)   scale(1);   }
+}
+@keyframes toastSlideOut {
+    from { opacity:1; transform:translateX(0) scale(1);    }
+    to   { opacity:0; transform:translateX(110%) scale(0.9); }
+}
+@keyframes toastProgress {
+    from { width:100%; }
+    to   { width:0%;   }
+}
+</style>
+
+<script>
+(function () {
+    function autoDismiss(el) {
+        setTimeout(function () {
+            if (!el.parentNode) return;
+            el.style.animation = 'toastSlideOut 0.25s ease forwards';
+            setTimeout(function () { el.remove(); }, 250);
+        }, 4000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.toast-item').forEach(autoDismiss);
+    });
+
+    // Livewire v3: $this->dispatch('notify', type: 'success', message: '...')
+    document.addEventListener('livewire:initialized', function () {
+        Livewire.on('notify', function (params) {
+            var data = Array.isArray(params) ? params[0] : params;
+            showToast(data.type || 'info', data.message || data.msg || '');
+        });
+    });
+
+    window.showToast = function (type, message) {
+        var map = {
+            success: { bg:'#d1fae5', border:'#10b981', text:'#065f46', icon:'✅' },
+            error:   { bg:'#fee2e2', border:'#ef4444', text:'#7f1d1d', icon:'❌' },
+            warning: { bg:'#fef3c7', border:'#f59e0b', text:'#78350f', icon:'⚠️' },
+            info:    { bg:'#dbeafe', border:'#3b82f6', text:'#1e3a8a', icon:'ℹ️' },
+        };
+        var c = map[type] || map.info;
+        var el = document.createElement('div');
+        el.className = 'toast-item pointer-events-auto';
+        el.setAttribute('role', 'alert');
+        el.style.cssText = [
+            'background:' + c.bg,
+            'border:1.5px solid ' + c.border,
+            'border-left:5px solid ' + c.border,
+            'border-radius:12px',
+            'padding:14px 16px',
+            'display:flex',
+            'align-items:flex-start',
+            'gap:10px',
+            'box-shadow:0 8px 24px rgba(0,0,0,0.12),0 2px 6px rgba(0,0,0,0.08)',
+            'animation:toastSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards',
+            'position:relative',
+            'overflow:hidden',
+        ].join(';');
+        el.innerHTML =
+            '<span style="font-size:1.2rem;flex-shrink:0;margin-top:1px;">' + c.icon + '</span>' +
+            '<div style="flex:1;min-width:0;"><p style="margin:0;font-size:0.875rem;font-weight:600;color:' + c.text + ';word-wrap:break-word;">' + message + '</p></div>' +
+            '<button onclick="this.closest(\'.toast-item\').style.animation=\'toastSlideOut 0.25s ease forwards\';setTimeout(()=>this.closest(\'.toast-item\').remove(),250);" style="flex-shrink:0;background:none;border:none;cursor:pointer;color:' + c.border + ';font-size:1.1rem;line-height:1;padding:0;margin-top:1px;opacity:0.7;" aria-label="Tutup">&times;</button>' +
+            '<div style="position:absolute;bottom:0;left:0;height:3px;background:' + c.border + ';opacity:0.4;animation:toastProgress 4s linear forwards;"></div>';
+        var container = document.getElementById('toast-container');
+        if (container) { container.appendChild(el); }
+        autoDismiss(el);
+    };
+})();
+</script>
 
 @livewireScripts
 </body>

@@ -1,4 +1,3 @@
-
 <div>
     <flux:heading size="xl" class="mb-6">Daftar Order Servis</flux:heading>
 
@@ -62,7 +61,7 @@
                 @endphp
                 @forelse($orders as $order)
                 <tr class="table-dark-row">
-                    <td class="px-6 py-4 font-mono text-xs font-semibold" style="color: #e2e8f0;">{{ $order->order_number }}</td>
+                    <td class="px-6 py-4 font-mono text-xs font-semibold" style="color: #000000;">{{ $order->order_number }}</td>
                     <td class="px-6 py-4" style="color: #000000;">{{ $order->customer_name }}</td>
                     <td class="px-6 py-4">
                         <p class="font-medium" style="color: #000000;">{{ $order->vehicle_type }}</p>
@@ -136,12 +135,12 @@
                 </div>
 
                 <div class="rounded-lg p-3 space-y-1.5 text-sm" style="background: rgba(15,23,42,0.3);">
-                    <div class="flex justify-between"><span style="color: #94a3b8;">Subtotal Barang</span><span style="color: #e2e8f0;">Rp {{ number_format($viewingOrder->total_items_cost, 0, ',', '.') }}</span></div>
-                    <div class="flex justify-between"><span style="color: #94a3b8;">Biaya Jasa</span><span style="color: #e2e8f0;">Rp {{ number_format($viewingOrder->service_fee, 0, ',', '.') }}</span></div>
+                    <div class="flex justify-between"><span style="color: #000000;">Subtotal Barang</span><span style="color: #000000;">Rp {{ number_format($viewingOrder->total_items_cost, 0, ',', '.') }}</span></div>
+                    <div class="flex justify-between"><span style="color: #000000;">Biaya Jasa</span><span style="color: #000000;">Rp {{ number_format($viewingOrder->service_fee, 0, ',', '.') }}</span></div>
                     <div style="border-top: 1px solid rgba(234,179,8,0.1); margin-top: 0.5rem; padding-top: 0.5rem;"></div>
                     <div class="flex justify-between font-bold text-base">
-                        <span style="color: #e2e8f0;">Grand Total</span>
-                        <span style="color: #34d399;">Rp {{ number_format($viewingOrder->grand_total, 0, ',', '.') }}</span>
+                        <span style="color: #000000;">Grand Total</span>
+                        <span style="color: #000000;">Rp {{ number_format($viewingOrder->grand_total, 0, ',', '.') }}</span>
                     </div>
                 </div>
 

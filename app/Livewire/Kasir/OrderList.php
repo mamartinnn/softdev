@@ -37,7 +37,7 @@ class OrderList extends Component
     {
         $order = ServiceOrder::find($id);
         if (!$order || $order->user_id !== auth()->id()) {
-            session()->flash('error', 'Order tidak ditemukan atau Anda tidak memiliki akses.');
+            $this->dispatch('notify', type: 'error', message: 'Order tidak ditemukan atau Anda tidak memiliki akses.');
             return;
         }
 
@@ -51,7 +51,7 @@ class OrderList extends Component
 
         // Stock transactions akan otomatis terhapus via cascadeOnDelete
         $order->delete();
-        session()->flash('success', 'Order berhasil dihapus dan stok telah dikembalikan.');
+        $this->dispatch('notify', type: 'success', message: 'Order berhasil dihapus dan stok telah dikembalikan.');
     }
 
     public function render()

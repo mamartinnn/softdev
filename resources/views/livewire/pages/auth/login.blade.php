@@ -24,6 +24,7 @@ new #[Layout('layouts.guest')] class extends Component
             default      => route('dashboard'),
         };
 
+        session()->flash('greeting', 'Selamat datang, ' . auth()->user()->name . '! 👋');
         $this->redirect($redirect, navigate: false);
     }
 }; ?>
