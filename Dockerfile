@@ -40,4 +40,6 @@ php artisan migrate --force\n\
 exec php artisan serve --host=0.0.0.0 --port=80\n' > /start.sh && chmod +x /start.sh
 
 EXPOSE 80
-CMD ["/start.sh"]   
+CMD ["/start.sh"]
+
+# force rebuild Tue Jun  9 07:23:42 UTC 2026
