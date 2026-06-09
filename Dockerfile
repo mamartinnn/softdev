@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.3-cli-alpine
 
 RUN apk add --no-cache \
     nodejs \
@@ -33,13 +33,15 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 RUN printf '#!/bin/sh\n\
+echo "==> Caching..."\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
 php artisan view:cache\n\
+echo "==> Migrating..."\n\
 php artisan migrate --force\n\
+echo "==> Starting server on port 80..."\n\
 exec php artisan serve --host=0.0.0.0 --port=80\n' > /start.sh && chmod +x /start.sh
 
 EXPOSE 80
+ENTRYPOINT []
 CMD ["/start.sh"]
-
-# force rebuild Tue Jun  9 07:23:42 UTC 2026
