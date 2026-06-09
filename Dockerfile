@@ -1,4 +1,4 @@
-# Railway force rebuild - v2
+# Railway force rebuild - v3
 FROM php:8.3-cli-alpine
 
 RUN apk add --no-cache \
@@ -25,9 +25,14 @@ RUN npm ci && npm run build
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-RUN printf '#!/bin/sh\nphp artisan config:cache\nphp artisan route:cache\nphp artisan view:cache\nphp artisan migrate --force\nexec php artisan serve --host=0.0.0.0 --port=80\n' > /start.sh \
-    && chmod +x /start.sh
+RUN printf '#!/bin/sh\n\
+php artisan config:cache\n\
+php artisan route:cache\n\
+php artisan view:cache\n\
+php artisan migrate --force\n\
+exec php artisan serve --host=0.0.0.0 --port=${PORT:-8080}\n' \
+    > /start.sh && chmod +x /start.sh
 
 ENTRYPOINT []
 CMD ["/bin/sh", "/start.sh"]
-EXPOSE 80   
+EXPOSE 8080
