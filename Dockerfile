@@ -1,18 +1,11 @@
+# Railway force rebuild - v2
 FROM php:8.3-cli-alpine
 
 RUN apk add --no-cache \
-    nodejs \
-    npm \
-    git \
-    curl \
-    libpng-dev \
-    libxml2-dev \
-    libzip-dev \
-    oniguruma-dev \
-    freetype-dev \
-    libjpeg-turbo-dev \
-    zip \
-    unzip
+    nodejs npm git curl \
+    libpng-dev libxml2-dev libzip-dev \
+    oniguruma-dev freetype-dev libjpeg-turbo-dev \
+    zip unzip
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
@@ -32,16 +25,9 @@ RUN npm ci && npm run build
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-RUN printf '#!/bin/sh\n\
-echo "==> Caching..."\n\
-php artisan config:cache\n\
-php artisan route:cache\n\
-php artisan view:cache\n\
-echo "==> Migrating..."\n\
-php artisan migrate --force\n\
-echo "==> Starting server on port 80..."\n\
-exec php artisan serve --host=0.0.0.0 --port=80\n' > /start.sh && chmod +x /start.sh
+RUN printf '#!/bin/sh\nphp artisan config:cache\nphp artisan route:cache\nphp artisan view:cache\nphp artisan migrate --force\nexec php artisan serve --host=0.0.0.0 --port=80\n' > /start.sh \
+    && chmod +x /start.sh
 
-EXPOSE 80
 ENTRYPOINT []
-CMD ["/start.sh"]
+CMD ["/bin/sh", "/start.sh"]
+EXPOSE 80   
