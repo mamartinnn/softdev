@@ -12,7 +12,7 @@ class ManageItems extends Component
 {
     use WithPagination, WithFileUploads;
 
-    
+    // Form fields
     public string  $name        = '';
     public string  $sku         = '';
     public float   $price       = 0;
@@ -20,10 +20,10 @@ class ManageItems extends Component
     public int     $stock       = 0;
     public string  $unit        = 'pcs';
     public string  $description = '';
-    public         $image; // file upload
+    public         $image;
     public ?string $existingImage = null;
 
-    
+    // UI state
     public bool   $showItemModal  = false;
     public bool   $showStockModal = false;
     public ?int   $editingId      = null;
@@ -46,34 +46,36 @@ class ManageItems extends Component
             'costPrice'   => 'required|numeric|min:0',
             'unit'        => 'required|string',
             'description' => 'nullable|string',
-            'image'       => $this->editingId ? 'nullable|image|max:2048' : 'nullable|image|max:2048',
+            'image'       => 'nullable|image|max:2048',
         ];
     }
 
     public function openCreate(): void
     {
         $this->reset(['name', 'sku', 'price', 'costPrice', 'stock', 'unit', 'description', 'image', 'editingId', 'existingImage']);
-        $this->unit      = 'pcs';
+        $this->unit          = 'pcs';
         $this->showItemModal = true;
     }
 
-    public function openEdit(Item $item): void
+    public function openEdit(int $itemId): void
     {
-        // Prevent editing of deactivated items
+        // Selalu ambil data fresh dari DB untuk menghindari state Livewire yang stale
+        $item = Item::findOrFail($itemId);
+
         if (!$item->is_active) {
-            $this->dispatch('notify', type: 'error', message: 'Barang yang sudah dinonaktifkan tidak bisa diedit atau diaktifkan kembali.');
+            $this->dispatch('notify', type: 'error', message: 'Barang yang sudah dinonaktifkan tidak bisa diedit. Aktifkan terlebih dahulu.');
             return;
         }
 
-        $this->editingId      = $item->id;
-        $this->name           = $item->name;
-        $this->sku            = $item->sku ?? '';
-        $this->price          = $item->price;
-        $this->costPrice      = $item->cost_price;
-        $this->unit           = $item->unit;
-        $this->description    = $item->description ?? '';
-        $this->existingImage  = $item->image;
-        $this->showItemModal  = true;
+        $this->editingId     = $item->id;
+        $this->name          = $item->name;
+        $this->sku           = $item->sku ?? '';
+        $this->price         = $item->price;
+        $this->costPrice     = $item->cost_price;
+        $this->unit          = $item->unit;
+        $this->description   = $item->description ?? '';
+        $this->existingImage = $item->image;
+        $this->showItemModal = true;
     }
 
     public function saveItem(): void
@@ -89,17 +91,15 @@ class ManageItems extends Component
             'description' => $this->description,
         ];
 
-        // Handle gambar
         if ($this->image) {
-            $path         = $this->image->store('items', 'public');
-            $data['image'] = $path;
+            $data['image'] = $this->image->store('items', 'public');
         }
 
         if ($this->editingId) {
             Item::findOrFail($this->editingId)->update($data);
             $this->dispatch('notify', type: 'success', message: 'Barang berhasil diperbarui.');
         } else {
-            $data['stock'] = 0; // stok awal 0, tambah via transaksi masuk
+            $data['stock'] = 0;
             Item::create($data);
             $this->dispatch('notify', type: 'success', message: 'Barang baru berhasil ditambahkan.');
         }
@@ -107,18 +107,20 @@ class ManageItems extends Component
         $this->showItemModal = false;
     }
 
-    public function openStock(Item $item, string $type = 'in'): void
+    public function openStock(int $itemId, string $type = 'in'): void
     {
-        // Prevent stock changes for deactivated items
+        // Selalu ambil data fresh dari DB
+        $item = Item::findOrFail($itemId);
+
         if (!$item->is_active) {
             $this->dispatch('notify', type: 'error', message: 'Tidak bisa mengubah stok barang yang sudah dinonaktifkan.');
             return;
         }
 
-        $this->stockItemId = $item->id;
-        $this->stockType   = $type;
-        $this->stockQty    = 1;
-        $this->stockNote   = '';
+        $this->stockItemId    = $item->id;
+        $this->stockType      = $type;
+        $this->stockQty       = 1;
+        $this->stockNote      = '';
         $this->showStockModal = true;
     }
 
@@ -136,17 +138,15 @@ class ManageItems extends Component
             return;
         }
 
-        // Catat transaksi stok
         StockTransaction::create([
-            'item_id'       => $item->id,
-            'type'          => $this->stockType,
-            'quantity'      => $this->stockQty,
-            'price_per_unit'=> $item->price,
-            'note'          => $this->stockNote,
-            'user_id'       => auth()->id(),
+            'item_id'        => $item->id,
+            'type'           => $this->stockType,
+            'quantity'       => $this->stockQty,
+            'price_per_unit' => $item->price,
+            'note'           => $this->stockNote,
+            'user_id'        => auth()->id(),
         ]);
 
-        // Update stok
         if ($this->stockType === 'in') {
             $item->increment('stock', $this->stockQty);
         } else {
@@ -157,15 +157,19 @@ class ManageItems extends Component
         $this->showStockModal = false;
     }
 
-    public function delete(Item $item): void
+    public function delete(int $itemId): void
     {
+        $item = Item::findOrFail($itemId);
         $item->update(['is_active' => false]);
         $this->dispatch('notify', type: 'success', message: 'Barang berhasil dinonaktifkan.');
     }
 
-    public function reactivate(Item $item): void
+    public function reactivate(int $itemId): void
     {
+        // Ambil fresh dari DB supaya status pasti terbaru
+        $item = Item::findOrFail($itemId);
         $item->update(['is_active' => true]);
+        $this->resetPage(); // paksa render ulang tabel agar tombol Edit muncul
         $this->dispatch('notify', type: 'success', message: 'Barang berhasil diaktifkan kembali.');
     }
 

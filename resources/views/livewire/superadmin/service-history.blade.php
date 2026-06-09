@@ -7,20 +7,12 @@
     </div>
 
     {{-- Filter bar --}}
-    <div class="card-dark p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="card-dark p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3MK gap-3">
         <input wire:model.live.debounce="search"
                placeholder="🔍 Cari nama/plat/no.order..."
                class="input-dark px-3 py-2 text-sm rounded-lg w-full"
                style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0; outline: none;" />
-        <select wire:model.live="filterStatus"
-                class="input-dark px-3 py-2 text-sm rounded-lg w-full"
-                style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0;">
-            <option value="">Semua Status</option>
-            <option value="open">Antrian</option>
-            <option value="in_progress">Dikerjakan</option>
-            <option value="done">Selesai</option>
-            <option value="cancelled">Batal</option>
-        </select>
+        
         <select wire:model.live="filterKasir"
                 class="input-dark px-3 py-2 text-sm rounded-lg w-full"
                 style="background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); color: #e2e8f0;">

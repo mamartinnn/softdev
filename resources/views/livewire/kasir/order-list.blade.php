@@ -17,18 +17,12 @@
 
     {{-- Filter Bar --}}
     <div class="flex flex-wrap gap-3 mb-5">
-        <flux:input
+        <flux:input style="color: #000000"
             wire:model.live.debounce="search"
             placeholder="Cari nama / no. order / plat..."
             class="w-60"
         />
-        <flux:select wire:model.live="filterStatus" class="w-36" style="color: #000000;">
-            <option value=""style="color: #000000;">Semua Status</option>
-            <option value="open"style="color: #000000;">Antrian</option>
-            <option value="in_progress"style="color: #000000;">Dikerjakan</option>
-            <option value="done"style="color: #000000;">Selesai</option>
-            <option value="cancelled"style="color: #000000;">Dibatalkan</option>
-        </flux:select>
+       
         <flux:input wire:model.live="filterDate" type="date" class="w-44"style="color: #000000;" />
 
         <a href="{{ route('kasir.orders.create') }}">

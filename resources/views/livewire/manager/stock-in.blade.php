@@ -30,8 +30,8 @@
                                 onmouseover="this.style.background='rgba(234,179,8,0.06)'"
                                 onmouseout="this.style.background='transparent'">
                             <div>
-                                <p class="font-semibold" style="color: #000000;">{{ $r['name'] }}</p>
-                                <p class="text-xs" style="color: #475569;">SKU: {{ $r['sku'] ?? '-' }} | Stok: {{ $r['stock'] }} {{ $r['unit'] }}</p>
+                                <p class="font-semibold" style="color: #ffffff;">{{ $r['name'] }}</p>
+                                <p class="text-xs" style="color: #ffffff;">SKU: {{ $r['sku'] ?? '-' }} | Stok: {{ $r['stock'] }} {{ $r['unit'] }}</p>
                             </div>
                             <span class="text-xs font-bold" style="color: #34d399;">Rp {{ number_format($r['price'],0,',','.') }}</span>
                         </button>
